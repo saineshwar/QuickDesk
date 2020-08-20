@@ -2,6 +2,7 @@
 The help desk software for small companies which are into customer support. 
 
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/logo.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
+Project is Developed in ASP.NET MVC with SQL Server Database
 
 ### Project Description and working
 
@@ -69,3 +70,27 @@ https://colorlib.com/polygon/gentelella/
 ### Encryption Library
 1.	SHA512
 2.	AES
+
+### Project Documents with Screen
+
+[TicketDocument1.0-SuperAdmin.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-SuperAdmin.docx)
+
+[TicketDocument1.0-User.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-User.docx)
+
+[TicketDocument1.0-Admin.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-Admin.docx)
+
+[TicketDocument1.0-Hod.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-Hod.docx)
+
+[TicketDocument1.0-AgentAdmin.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-AgentAdmin.docx)
+
+[TicketDocument1.0-Agent.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-Agent.docx)
+
+
+
+
+
+
+
+
+
+
