@@ -1,5 +1,7 @@
 # QuickDesk
-The help desk software for small companies which are into customer support. Developed in ASP.NET MVC | SQL Server.
+The help desk software for small companies which are into customer support. 
+
+<img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/logo.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 
 ### Project Description and working
 
