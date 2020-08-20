@@ -73,9 +73,9 @@ https://colorlib.com/polygon/gentelella/
 
 ### Project Documents with Screen
 
+[Project Description Document](https://github.com/saineshwar/QuickDesk/wiki)
 
-
-
+[SuperAdmin Document](https://github.com/saineshwar/QuickDesk/wiki/SuperAdmin)
 
 
 
