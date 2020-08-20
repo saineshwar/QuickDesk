@@ -73,17 +73,7 @@ https://colorlib.com/polygon/gentelella/
 
 ### Project Documents with Screen
 
-[TicketDocument1.0-SuperAdmin.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-SuperAdmin.docx)
 
-[TicketDocument1.0-User.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-User.docx)
-
-[TicketDocument1.0-Admin.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-Admin.docx)
-
-[TicketDocument1.0-Hod.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-Hod.docx)
-
-[TicketDocument1.0-AgentAdmin.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-AgentAdmin.docx)
-
-[TicketDocument1.0-Agent.docx](https://github.com/saineshwar/QuickDesk/blob/master/TicketDocument/TicketDocument1.0-Agent.docx)
 
 
 
