@@ -4,13 +4,46 @@ The help desk software for small companies which are into customer support.
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/logo.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 Project is Developed in ASP.NET MVC with SQL Server Database
 
+### Features
+***
+
+* Login
+* Create User
+* Create Ticket
+* Dashboard with Status Counts
+* View All Tickets
+* Ticket History
+* Knowledgebase
+* Delete & Restore Ticket
+* Replying on Ticket 
+* Reports
+* Escalation
+* Notification
+* Masters
+* View All Roles
+* Managing Menu Category,Menu,SubMenu 
+* Adding and Managing Users (Users, Agent, Agentadmin, Hod, Admin)
+* Setting up SMTP
+* General settings 
+* Adding Holiday and Managing it
+* Configuring Business Hours
+* Assign Category and Business Hours to AgentAdmin & HOD
+* Configuring SLA policies 
+* Setting Default Ticket Count for Agents and Auto Closing Ticket Hours
+* Managing Cache
+* Auto process of ticket Allocation , Notification ,Overdue,Escalation,Closing
+
+###  Roles
+***
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/2020-08-19_18-53-17.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 
 ### User Role
+***
 
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/2020-08-19_19-18-33.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 
 ### Agent Role
+***
 
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/2020-08-19_19-49-09.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 
@@ -46,10 +79,12 @@ https://colorlib.com/polygon/gentelella/
 
 [SuperAdmin Document](https://github.com/saineshwar/QuickDesk/wiki/SuperAdmin)
 
+[Admin Document](https://github.com/saineshwar/QuickDesk/wiki/Admin)
 
+[Agent Document](https://github.com/saineshwar/QuickDesk/wiki/Agent)
 
+[AgentAdmin Document](https://github.com/saineshwar/QuickDesk/wiki/AgentAdmin)
 
+[HOD Document](https://github.com/saineshwar/QuickDesk/wiki/HOD)
 
-
-
-
+[User Document](https://github.com/saineshwar/QuickDesk/wiki/User)
