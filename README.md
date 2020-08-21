@@ -4,37 +4,6 @@ The help desk software for small companies which are into customer support.
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/logo.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 Project is Developed in ASP.NET MVC with SQL Server Database
 
-### Project Description and working
-
-Support Application is for companies which are into customer support. 
-Let’s take one example of a small company which sells a product; now a customer buys some product from an online store then after using for some months, it stops functioning then the customer goes online to find customer support details to communicate.
-
-After calling customer support they will ask you your order id when was this product purchase and entire history suddenly you call gets disconnected, wow now again you will call and tell same details then they will log issues in their internal Application.
-
-After Complaint log they will provide you complain number which you still need to remember again after few days you want to know the status of Application then you will call customer support for track status of a product here you won’t remember when you have called last time.
-Now using this Support ticket application how you can over this scenario. 
-
-Now when a customer purchases a product, you can share this application details with it or search on the website of your company, you should share the application URL or link of it. 
-
-Now the first time when a customer visits Support ticket application, He or she needs to register them self with valid mobile no and Email in and some necessary details such that agent can know who are they talking with. 
-
-Next step after Registration is, Users, will get an email for verification on the email address which they have used for Registration.
-Now to verify just click on confirm email link in the email then it will redirect to portal and show you verification message after doing verification then the only customer will be allowed to log into Application.
-
-Now to login into Application using username and password which you have applied for Registration. After login into application user can create a ticket. After created a ticket, this ticket will be assigned to agents according to the Category and priority you have chosen. As this ticket is assigned to an agent, there are SLA Policies which agent needs to follow ticket should be replied in certain hours or days as SLA Policies are configured. If the agent does not respond to the ticket, then a notification to the agent is shown before the ticket is going to escalate.
-
-Still, if an agent does not respond then it is escalated to a higher authority which is agent admin (team lead) now agent admin (team lead) has next few days or hours as per SLA Policies are configured.
-
-Now if agent admin (team lead) does not reply to ticket it is finally escalated to configured HOD (Head of the department) he is the final person to respond in Hierarchy.
-
-### There are six roles in this Application
-1.	SuperAdmin
-2.	User
-3.	Admin
-4.	Agent
-5.	AgentAdmin
-6.	Hod
-
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/2020-08-19_18-53-17.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 
 ### User Role
