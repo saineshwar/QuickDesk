@@ -1,0 +1,86 @@
+﻿@model  TicketManagement.ViewModels.ViewTicketReplyMainModel
+@using TicketManagement.CommonData
+@using TicketManagement.Models
+@using TicketManagement.ViewModels
+
+@foreach (var reply in Model.ListofTicketreply)
+{
+    if (reply != null)
+    {
+        var key = string.Concat("collapse", reply.TicketReplyId);
+
+
+        <div class="panel panel-default">
+            <div data-toggle="collapse" data-target="#@key" class="panel-heading">
+                <div class="col-sm-6 col-xs-12">
+                    Replied || RepliedDate :- @reply.CreatedDateDisplay
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="dropdown pull-right">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                            Options
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Ticket/EditReply?tracking=@reply.TrackingId&ticketreply=@reply.TicketReplyId">Edit Ticket Reply</a></li>
+                            <li><a href="javascript:void(0);">Delete Reply</a></li>
+                            <li><a href="javascript:void(0);">Send Email</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="@key" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label class="control-label">Name</label>
+                            <p>@Html.Raw(reply.RepliedUserName)</p>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label">Email</label>
+                            <p>@Html.Raw(reply.Email)</p>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label">Replied Date</label>
+                            <p>@Html.Raw(reply.CreatedDateDisplay)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <label class="control-label">Message</label>
+                            <div style="word-wrap: break-word;" class="well well-lg">@Html.Raw(reply.Message)</div>
+                        </div>
+                        <div class="col-lg-4">
+
+                            @if (Model.ListofReplyAttachment.Count != 0)
+                            {
+                                <label>Attachment</label>
+                                <br />
+                                TicketReplyAttachment ticketReplyAttachment = new TicketReplyAttachment();
+                                var attachment = ticketReplyAttachment.GetListReplyAttachmentsByAttachmentId(reply.TicketReplyId);
+
+                                foreach (var t in attachment)
+                                {
+                                    <a class="btn btn-default" href="/TicketDetails/DownloadReplyAttachMent?ticketReplyId=@t.TicketReplyId"><i class="fa fa-download"></i> Download</a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Delete Attachment !"
+                                       class="btn btn-default" 
+                                       href="/DeleteReplyAttachment/Delete?TrackingId=@reply.TrackingId&ticketId=@t.TicketId"><i class="fa fa-times"></i></a>
+                                }
+
+                            }
+                            else
+                            {
+                                <label>Attachment</label>
+                                <br/>
+                                <i class="red">No Download</i>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+}

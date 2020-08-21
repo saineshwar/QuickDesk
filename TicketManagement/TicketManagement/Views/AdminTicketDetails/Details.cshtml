@@ -1,0 +1,134 @@
+﻿
+@model TicketManagement.ViewModels.DisplayTicketViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<br />
+<hr />
+<div class="col-lg-12">
+
+    @if (TempData["TicketReplyMessage"] != null)
+    {
+        <div class="alert alert-info alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Message!</strong> @TempData["TicketReplyMessage"]
+        </div>
+    }
+
+    <div class="panel panel-primary">
+        <div data-toggle="collapse" data-target="#collapseOne" class="panel-heading">
+
+            <div class="col-sm-8 col-xs-12">
+                Ticket :- @Model.TrackingId  || CreatedDate :- @Model.CreatedDate
+            </div>
+            <div class="col-sm-4 col-xs-12">
+                <div class="dropdown pull-right">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Options
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Ticket/EditTicket?trackingid=@Model.TrackingId">Edit Ticket</a></li>
+                        <li><a href="javascript:void(0);">Delete Reply</a></li>
+                        <li><a href="javascript:void(0);">Send Email</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-3">
+                    @Html.LabelFor(m => m.Name, htmlAttributes: new { @class = "control-label" })
+                    <p>@Html.Raw(Model.Name)</p>
+                </div>
+                <div class="col-lg-2">
+                    @Html.LabelFor(m => m.CategoryName, htmlAttributes: new { @class = "control-label" })
+                    <p>@Html.Raw(Model.CategoryName)</p>
+                </div>
+                <div class="col-lg-3">
+                    @Html.LabelFor(m => m.PriorityName, htmlAttributes: new { @class = "control-label" })
+                    <p>@Html.Raw(Model.PriorityName)</p>
+                </div>
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.PriorityId, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.PriorityId, new SelectList(Model.ListofPriority, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PriorityId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" id="ChangePriority" name="ChangePriority" style="margin-top: 22px;" class="btn btn-success">Change</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    @Html.LabelFor(m => m.Subject, htmlAttributes: new { @class = "control-label" })
+                    <div class="well well-sm">@Html.Raw(Model.Subject)</div>
+                </div>
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.StatusId, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.StatusId, new SelectList(Model.ListofStatus, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" id="ChangeStatus" name="ChangeStatus" style="margin-top: 22px;" class="btn btn-success">Change</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    @Html.LabelFor(m => m.Message, htmlAttributes: new { @class = "control-label" })
+                    <div class="well well-lg" style="word-wrap: break-word;">@Html.Raw(Model.Message)</div>
+                </div>
+                <div class="col-lg-4">
+                    @if (Model.ListofAttachments.Count != 0)
+                    {
+                        <label>Attachment</label>
+                        <br />
+                        foreach (var attachment in Model.ListofAttachments)
+                        {
+                            <a class="btn btn-default" href="/TicketDetails/DownloadAttachMent?ticketId=@attachment.TicketId"><i class="fa fa-download"></i> Download</a>
+
+                            <a data-toggle="tooltip" data-placement="top" title="Delete Attachment !"
+                               class="btn btn-default"
+                               href="/DeleteAttachment/Delete?TrackingId=@Model.TrackingId&ticketId=@attachment.TicketId"><i class="fa fa-times"></i></a>
+
+                        }
+                    }
+                    else
+                    {
+                        <label>Attachment</label>
+                        <br />
+                        <i class="red">No Download</i>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @if (Model.ViewMainModel != null)
+    {
+        Html.RenderPartial("_TicketReplyHistory", Model.ViewMainModel);
+    }
+
+    <div class="panel panel-green">
+        <div class="panel-heading">Add reply</div>
+        <div class="panel-body">
+            @if (Model.TicketReply != null)
+            {
+                using (Html.BeginForm("Details", "TicketDetails", FormMethod.Post, new { id = "ReplyTicketform", enctype = "multipart/form-data" }))
+                {
+                    {
+                        Html.RenderPartial("_TicketReply", Model.TicketReply);
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

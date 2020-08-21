@@ -1,0 +1,319 @@
+﻿@model TicketManagement.ViewModels.BusinessHoursModel
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Business Hours</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            @if (TempData["BusinessHoursMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["BusinessHoursMessage"]
+                </div>
+            }
+            @using (Html.BeginForm("Add", "BusinessHours"))
+            {
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "mandatory" })
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "mandatory" })
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @foreach (var d in Model.ListofBusinessHoursType)
+                        {
+                            @Html.RadioButtonFor(m => m.SelectedBusinessHoursType, d.Value)
+                            <label>@d.Text</label>
+                        }
+                        @Html.ValidationMessageFor(model => model.SelectedBusinessHoursType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                
+                <div id="HelpdeskHours" class="row">
+                    @for (int i = 0; i <= Model.ListofDays.Count() - 1; i++)
+                    {
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        @{
+                                            string check = "check" + i;
+                                        }
+                                        <input type="checkbox"
+                                               onclick="removedisable(this, @i)"
+                                               id="@check"
+                                               name="SelectedDays[@i]"
+                                               value="@Model.ListofDays[i].Value"
+                                               @if (Model.SelectedDays.Contains(Model.ListofDays[i].Value)) { <text> checked </text>    } /> @Model.ListofDays[i].Text
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                @Html.DropDownListFor(model => model.MorningHour[i], new SelectList(Model.ListofHour, "Value", "Text"), new { @class = "form-control" })
+                                @Html.HiddenFor(model => model.MorningHour[i])
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                @Html.DropDownListFor(model => model.MorningPeriod[i], new SelectList(Model.ListofPeriod, "Value", "Text"), new { @class = "form-control" })
+                                @Html.HiddenFor(model => model.MorningPeriod[i])
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                @Html.DropDownListFor(model => model.EveningHour[i], new SelectList(Model.ListofHour, "Value", "Text"), new { @class = "form-control" })
+                                @Html.HiddenFor(model => model.EveningHour[i])
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                @Html.DropDownListFor(model => model.EveningPeriod[i], new SelectList(Model.ListofPeriod, "Value", "Text"), new { @class = "form-control time_validate" })
+                                @Html.HiddenFor(model => model.EveningPeriod[i])
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                @{
+                                    string label = "label" + i;
+                                }
+                                <label id='@label'></label>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <br />
+                        <button id="btnsubmit" class="btn btn-round btn btn-success" onclick="return validate();" type="submit">Submit</button>
+                        <a href="/BusinessHours/add" class="btn btn-round btn btn-primary"> Clear</a>
+                        <a href="/BusinessHours/AllBusinessHours" class="btn btn-round btn btn-primary"> AllBusinessHours</a>
+                        
+                    </div>
+                </div>
+                                        }
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+
+        $("#HelpdeskHours").hide();
+
+        for (var i = 0; i < 7; i++)
+        {
+            var tempmorningname = "#MorningHour_" + i + "_";
+            $(tempmorningname).attr("disabled", "disabled");
+
+            var tempmorningperiodname = "#MorningPeriod_" + i + "_";
+            $(tempmorningperiodname).attr("disabled", "disabled");
+
+            var tempEveninghourname = "#EveningHour_" + i + "_";
+            $(tempEveninghourname).attr("disabled", "disabled");
+
+            var tempEveningperiodname = "#EveningPeriod_" + i + "_";
+            $(tempEveningperiodname).attr("disabled", "disabled");
+        }
+
+   
+        $('input[type=radio][name=SelectedBusinessHoursType]').on('change', function ()
+        {
+            if ($(this).val() == "1")
+            {
+                $("#HelpdeskHours").hide();
+            }
+            if ($(this).val() == "2")
+            {
+                $("#HelpdeskHours").show();
+            } 
+
+        });
+
+
+    });
+
+    function removedisable(i, index) {
+        var tempmorningname;
+        var tempmorningperiodname;
+        var tempEveningperiodname;
+        var tempEveninghourname;
+        if (i.checked) {
+            tempmorningname = "#MorningHour_" + index + "_";
+            $(tempmorningname).removeAttr('disabled');
+
+            tempmorningperiodname = "#MorningPeriod_" + index + "_";
+            $(tempmorningperiodname).removeAttr('disabled');
+
+            tempEveninghourname = "#EveningHour_" + index + "_";
+            $(tempEveninghourname).removeAttr('disabled');
+
+            tempEveningperiodname = "#EveningPeriod_" + index + "_";
+            $(tempEveningperiodname).removeAttr('disabled');
+        }
+        else {
+            tempmorningname = "#MorningHour_" + index + "_";
+            $(tempmorningname).attr("disabled", "disabled");
+
+            tempmorningperiodname = "#MorningPeriod_" + index + "_";
+            $(tempmorningperiodname).attr("disabled", "disabled");
+
+            tempEveninghourname = "#EveningHour_" + index + "_";
+            $(tempEveninghourname).attr("disabled", "disabled");
+
+            tempEveningperiodname = "#EveningPeriod_" + index + "_";
+            $(tempEveningperiodname).attr("disabled", "disabled");
+        }
+    }
+
+    function validate()
+    {
+        if ($("input:radio[name='SelectedBusinessHoursType']:checked").val() == "1")
+        {
+            return true;
+        }
+
+        else if ($("input:radio[name='SelectedBusinessHoursType']:checked").val() == "2") {
+
+            var statusflag = false;
+            for (var i = 0; i < 7; i++) {
+                var id = "check" + i;
+                var chkPassport = document.getElementById(id);
+                var isChecked = $(id).is(":checked");
+
+                if (chkPassport.checked) {
+                    var tempmorningname = "#MorningHour_" + i + "_";
+                    var morningtime = $(tempmorningname).val();
+
+                    var tempEveninghourname = "#EveningHour_" + i + "_";
+                    var eveningtime = $(tempEveninghourname).val();
+
+                    var tempmorningperiodname = "#MorningPeriod_" + i + "_";
+                    var morningrange = $(tempmorningperiodname).val();
+
+                    var tempEveningperiodname = "#EveningPeriod_" + i + "_";
+                    var eveningrange = $(tempEveningperiodname).val();
+
+                    var lableid = "#label" + i;
+
+                    var start = morningtime;
+                    var startRange = morningrange;
+                    var end = eveningtime;
+                    var endRange = eveningrange;
+
+                    var data1 = compute_validity(start, startRange, end, endRange);
+                    var data2 = calculateduration(start, startRange, end, endRange);
+
+                    var result = data1 ? data2 : "error";
+
+                    if (result == "error") {
+
+                        statusflag = false;
+                    } else {
+                        $(lableid).text(data2);
+                        statusflag = true;
+                    }
+
+                }
+            }
+
+            if (statusflag == false) {
+                alert("Please Select Valid time");
+            }
+
+            if (statusflag == true) {
+                if (confirm("Are you sure you want to save this?")) {
+                    statusflag = true;
+                } else {
+                    statusflag = false;
+                }
+            }
+            return statusflag;
+        } else
+        {
+            alert("Please Enter Details to Business Hours");
+            return false;
+        }
+      
+    }
+
+    function toSeconds(time, range) {
+        var hrs = parseInt(time.split(":")[0]);
+        var mins = parseInt(time.split(":")[1]);
+        var offset = (range == 'pm') ? (12 * 3600) : 0;
+        return ((hrs == 12 ? 0 : hrs) * 3600) + (mins * 60) + offset;
+    }
+
+    function compute_validity(rangeArray0, rangeArray1, rangeArray2, rangeArray3) {
+        var duration;
+
+        var start = rangeArray0;
+        var startRange = rangeArray1;
+        var end = rangeArray2;
+        var endRange = rangeArray3;
+
+        var morningSec = toSeconds(start, startRange);
+        var eveningSec = toSeconds(end, endRange);
+
+        return (morningSec < eveningSec) || (morningSec == 0 && eveningSec == 0);
+    }
+
+    function calculateduration(rangeArray0, rangeArray1, rangeArray2, rangeArray3) {
+        var start = rangeArray0;
+        var startRange = rangeArray1;
+        var end = rangeArray2;
+        var endRange = rangeArray3;
+
+        var _start = toSeconds(start, startRange);
+        var _end = toSeconds(end, endRange);
+
+        var duration = (_end - _start);
+
+        var hrs = (_start == 0 && _end == 0) ? 24 : Math.floor(duration / 3600);
+        var mins = (duration % 3600) / 60;
+
+        return (hrs ? (hrs + " hrs ") : "") + (mins ? (mins + " mins") : "");
+    }
+
+    function map_end_time(_time_array) {
+        if (_time_array[2] == "12:00" && _time_array[3] == "am") {
+            _time_array[2] = "11:60";
+            _time_array[3] = "pm";
+        }
+        return _time_array;
+    }
+
+    function duration(item) {
+        var _parent = jQuery(item).parents('.timerange').first();
+        var _cal_index = _parent.data('dayNumber');
+
+        _time_array = TIME_CONTAINERS.map(function (id) {
+            return _parent.find("#" + id + '_' + _cal_index).val();
+        })
+
+        _time_array = map_end_time(_time_array);
+
+        _condition = compute_validity(_time_array);
+
+        jQuery(_parent).find('.outline').toggle(_condition);
+
+        _parent.find(".time_validate").data("validtime", _condition);
+
+        return _condition ?
+            calculate_duration(_time_array) : "<a href='#' class='error'></a>Please enter a valid time"
+
+    }
+
+
+
+
+</script>

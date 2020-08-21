@@ -1,0 +1,173 @@
+﻿
+@Scripts.Render("~/bundles/dataTables")
+
+<style type="text/css">
+    #scrolly {
+        width: 1000px;
+        height: 450px;
+        overflow: auto;
+        overflow-y: hidden;
+        margin: 0 auto;
+        white-space: nowrap;
+    }
+</style>
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>All SubMenu's</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            <table id="myTable" class="table table-striped table-bordered dt-responsive nowrap">
+                <thead>
+                    <tr>
+                        <th>MenuId</th>
+                        <th>ControllerName</th>
+                        <th>ActionMethod</th>
+                        <th>MenuName</th>
+                        <th>SubMenuName</th>
+                        <th>RoleName</th>
+                        <th>MenuCategoryName</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#myTable").DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "ajax": {
+                "url": "/SubMenuMaster/LoadallSubMenus",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columnDefs":
+            [{
+                "targets": [0],
+                "visible": false,
+                "searchable": false
+            },
+                {
+                    "targets": [4],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false
+                },
+            {
+                "targets": [5],
+                "visible": true,
+                "searchable": false,
+                "orderable": false
+            },
+                {
+                    "targets": [6],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false
+                },
+                {
+                    "targets": [7],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false
+                },
+                {
+                    "targets": [8],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false
+                }
+
+
+            ],
+            "columns": [
+                { "data": "SubMenuId", "name": "SubMenuId", "autoWidth": true },
+                { "data": "ControllerName", "name": "ControllerName", "autoWidth": true },
+                { "data": "ActionMethod", "name": "ActionMethod", "autoWidth": true },
+                { "data": "MenuName", "name": "MenuName", "autoWidth": true },
+                { "data": "SubMenuName", "name": "SubMenuName", "autoWidth": true },
+                { "data": "RoleName", "name": "RoleName", "autoWidth": true },
+                { "data": "MenuCategoryName", "name": "MenuCategoryName", "autoWidth": true },
+                {
+                    "render": function (data, type, full, meta) {
+                        if (full.Status == true) {
+                            return "<lable class='btn btn-primary btn-xs'>Active</lable>";
+                        }
+                        else {
+                            return "<lable class='btn btn-primary btn-xs'>Deactive</lable>";
+                        }
+                    }
+                },
+                {
+                    "render": function (data, type, full, meta) {
+                        return '<a class="btn btn-primary btn-xs" href="../SubMenuMaster/Edit/' + full.SubMenuId + ' ">' + '<i class="glyphicon glyphicon-edit"></i> Edit </a>';
+                    }
+                },
+                {
+                    "render": function (data, type, full, meta) {
+                        return '<a class="btn btn-danger btn-xs" onclick="Delete(' + full.SubMenuId + ');"> <i class="glyphicon glyphicon-trash"></i> Delete </a>';
+                    }
+                }
+            ]
+
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    function Delete(subMenuIdValue) {
+        if (confirm("Are you sure you want to Delete this?")) {
+            var requestObject =
+            {
+                SubMenuId: subMenuIdValue
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/SubMenuMaster/DeleteSubMenu",
+                data: JSON.stringify(requestObject),
+                contentType: "application/json; charset=utf-8",
+                success: function(data, textStatus, xhr) {
+                    if (data.Result == "success") {
+                        alert('Deleted Data Successfully');
+                        location.reload();
+                    }
+                    if (data.Result == "failed") {
+                        alert('Something Went Wrong');
+                        location.reload();
+                    }
+                },
+                error: function(xhr, status, err) {
+                    if (xhr.status == 401) {
+                        alert('Error');
+                        window.location.href = "/Portal/Logout";
+
+                    }
+
+                    if (xhr.status == 500) {
+                        alert('Error');
+                        window.location.href = "/Portal/Logout";
+                    }
+                }
+            });
+        }
+    }
+
+</script>
+
+
+
+
+
+

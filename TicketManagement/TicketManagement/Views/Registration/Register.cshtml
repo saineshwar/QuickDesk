@@ -1,0 +1,182 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@model TicketManagement.ViewModels.UsermasterView
+@{
+    Layout = "~/Views/Shared/_LayoutRegister.cshtml";
+}
+
+<div class="Registration_wrapper">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <div class="x_panel">
+                <div class="x_content">
+                    <img style="width: 400px;" src="~/LoginTemplate/images/ticket.jpg" />
+                    <div class="alert alert-danger">
+                        <strong>Message!</strong> Please Enter Valid <b>Email address will Registration.</b> Without Your <b>Email Verfication</b>  Account will not be Active for Use.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-8">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Create an account</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    @if (TempData["MessageRegistration"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Message!</strong> @TempData["MessageRegistration"]
+                        </div>
+                    }
+
+                    @if (TempData["ErrorRegistration"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Message!</strong> @TempData["ErrorRegistration"]
+                        </div>
+                    }
+
+                    @if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count > 0)
+                    { 
+                        <div class="alert alert-danger alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            @Html.ValidationSummary(true, "Errors: ")
+                        </div>
+                    }
+
+                    @using (Html.BeginForm("Register", "Registration", null, FormMethod.Post, new { @id = "Userform", @name = "Userform", @class = "form-horizontal form-label-left input_mask" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div>
+                                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "mandatory" })
+                                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control custom-input", @placeholder = "FirstName", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "mandatory" })
+                                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control custom-input", @placeholder = "LastName", @maxlength = 50 })
+                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @Html.LabelFor(model => model.EmailId, htmlAttributes: new { @class = "mandatory" })
+                                @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control custom-input", @placeholder = "EmailId", @maxlength = 50 })
+                                @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "mandatory" })
+                                <p>
+                                    @Html.RadioButtonFor(model => model.Gender, "M") @Html.Label("", "Male")
+                                    @Html.RadioButtonFor(model => model.Gender, "F") @Html.Label("", "Female")
+                                </p>
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                <br />
+                                <input type="submit" id="btnsubmit" value="SignUp" class="btn btn-primary" /> | <a class="btn btn-danger" href="/Login/Login">Cancel</a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div>
+                                @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "mandatory" })
+                                @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control custom-input", @placeholder = "MobileNo", @maxlength = 10 })
+                                @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "mandatory" })
+                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control custom-input", @placeholder = "UserName", @maxlength = 50, @autocomplete = "disable-autocomplete" })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "mandatory" })
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control custom-input", @placeholder = "Password", @maxlength = 150, @autocomplete = "disable-autocomplete" })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "mandatory" })
+                                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control custom-input", @placeholder = "Confirm Password", @maxlength = 150 })
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @Html.Label("Captcha", null, new { @class = "mandatory" })
+                                @Html.Captcha("Refresh", "Enter the text you see above", 5, "<span class='text-danger'>Enter Captcha</span>", true)
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section customscripts{
+    <script src="~/Scripts/crypto/sha512.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#btnsubmit").click(function () {
+                if ($('#Password').val() != "" && $('#ConfirmPassword').val() != "") {
+                    if (validatePassword($('#Password').val()) == false) {
+                        alert('New Password Must Have Minimum 7 characters at least 1 Alphabet, 1 Number and 1 Special Character !');
+                        return false;
+                    }
+                    else {
+                        var password = $('#Password').val();
+                        var passwordhash = sha512(password);
+
+                        var confirmpassword = $('#ConfirmPassword').val();
+                        var confirmpasswordhash = sha512(confirmpassword);
+
+                        $('#Password').val(passwordhash);
+                        $('#ConfirmPassword').val(confirmpasswordhash);
+                        $("#Userform").submit();
+                    }
+                }
+            });
+
+            $("#Password").blur(function (event) {
+                if ($('#Password').val() != "") {
+                    if (validatePassword($("#Password").val()) == false) {
+                        alert('New Password Must Have Minimum 7 characters at least 1 Alphabet, 1 Number and 1 Special Character !');
+                        $("#Password").val('');
+                    }
+
+                    var data = $("#Password").val().length;
+                    if (data > 20) {
+                        alert('Maximum 20 character password is Allowed!');
+                        $("#Password").val('');
+                    }
+                }
+
+            });
+        });
+
+        function validatePassword(password) {
+            var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@@$!%*#?&])[A-Za-z\d$@@$!%*#?&]{7,}$/;
+            if (reg.test(password)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        $(document).ready(function () {
+            try {
+                $("input[type='text']").each(function () {
+                    $(this).attr("autocomplete", "off");
+                });
+            }
+            catch (e)
+            { }
+        });
+    </script>
+}
+
+

@@ -1,0 +1,101 @@
+﻿@model TicketManagement.ViewModels.ResetPasswordModel
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<body class="login">
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                @using (Html.BeginForm("Reset", "PasswordReset", FormMethod.Post, new { @id = "Resetform", @name = "Resetform", @class = "user" }))
+                {
+
+                    @Html.AntiForgeryToken()
+                    <h1>Reset Password</h1>
+
+                    if (TempData["Reset_Error_Message"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Info!</strong> @TempData["Reset_Error_Message"]
+                        </div>
+                    }
+
+                    <div style="text-align: left;">
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password", @maxlength = 150, @autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div style="text-align: left;">
+                        @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password", @maxlength = 150, @autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                    <div>
+                        <input id="btnsubmit" class="btn btn-primary" type="submit" value="Sign in To Account"> 
+                        <a class="reset_pass"  href="/Login/Login">Back to Login</a>
+                    </div>
+                    <div class="clearfix"></div>
+                }
+            </section>
+        </div>
+    </div>
+</div>
+</body>
+
+
+
+
+<script src="~/Scripts/crypto/sha512.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnsubmit").click(function () {
+            if ($('#Password').val() != "" && $('#ConfirmPassword').val() != "") {
+                if (validatePassword($('#Password').val()) == false) {
+                    alert('New Password Must Have Minimum 7 characters at least 1 Alphabet, 1 Number and 1 Special Character !');
+                    return false;
+                } else {
+                    var password = $('#Password').val();
+                    var passwordhash = sha512(password);
+
+                    var confirmpassword = $('#ConfirmPassword').val();
+                    var confirmpasswordhash = sha512(confirmpassword);
+
+                    $('#Password').val(passwordhash);
+                    $('#ConfirmPassword').val(confirmpasswordhash);
+                    $("#Resetform").submit();
+                }
+            }
+        });
+
+        $("#Password").blur(function (event) {
+            if ($('#Password').val() != "") {
+                if (validatePassword($("#Password").val()) == false) {
+                    alert('New Password Must Have Minimum 7 characters at least 1 Alphabet, 1 Number and 1 Special Character !');
+                    $("#Password").val('');
+                }
+
+                var data = $("#Password").val().length;
+                if (data > 20) {
+                    alert('Maximum 20 character password is Allowed!');
+                    $("#Password").val('');
+                }
+            }
+        });
+
+    });
+
+    function validatePassword(password) {
+        var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@@$!%*#?&])[A-Za-z\d$@@$!%*#?&]{7,}$/;
+        if (reg.test(password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+</script>

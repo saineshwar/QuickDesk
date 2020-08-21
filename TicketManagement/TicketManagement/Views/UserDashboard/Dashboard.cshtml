@@ -1,0 +1,89 @@
+﻿@using TicketManagement.ViewModels
+@model DashboardCountViewModel
+
+
+<div class="">
+    <div class="row top_tiles">
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=1">
+                <div class="tile-stats">
+                    <div class="count">@Model.NewTicketCount</div>
+                    <h3>New</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=2">
+                <div class="tile-stats">
+                    <div class="count">@Model.ResolvedTicketCount</div>
+                    <h3>Resolved</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=3">
+                <div class="tile-stats">
+                    <div class="count">@Model.InProgressTicketCount</div>
+                    <h3>InProgress</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=6">
+                <div class="tile-stats">
+                    <div class="count">@Model.RepiledTicketCount</div>
+                    <h3>Replied</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=4">
+                <div class="tile-stats">
+                    <div class="count">@Model.OnHoldTicketCount</div>
+                    <h3>OnHold</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=5">
+                <div class="tile-stats">
+                    <div class="count">@Model.RecentlyEditedTicketCount</div>
+                    <h3>Edited</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=7">
+                <div class="tile-stats">
+                    <div class="count">@Model.DeletedTicketCount</div>
+                    <h3>Deleted</h3>
+                </div>
+            </a>
+        </div>
+        
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=8">
+                <div class="tile-stats">
+                    <div class="count">@Model.OverdueTicketCount</div>
+                    <h3>Overdue</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=9">
+                <div class="tile-stats">
+                    <div class="count">@Model.EscalatedTicketCount</div>
+                    <h3>Escalation</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/UserDashboard/ShowTickets?statusId=10">
+                <div class="tile-stats">
+                    <div class="count">@Model.ClosedTicketCount</div>
+                    <h3>Closed</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

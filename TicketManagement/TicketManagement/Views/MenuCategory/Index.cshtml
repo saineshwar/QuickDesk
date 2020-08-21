@@ -1,0 +1,146 @@
+﻿
+
+
+@Scripts.Render("~/bundles/dataTables")
+
+
+<style type="text/css">
+    #scrolly {
+        width: 1000px;
+        height: 450px;
+        overflow: auto;
+        overflow-y: hidden;
+        margin: 0 auto;
+        white-space: nowrap;
+    }
+</style>
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>All Menu Category</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+
+
+
+            <table id="myTable" class="table table-striped table-bordered nowrap">
+                <thead>
+                    <tr>
+                        <th>MenuCategoryId</th>
+                        <th>MenuCategoryName</th>
+                        <th>RoleName</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#myTable").DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "ajax": {
+                "url": "/MenuCategory/LoadallMenusCategory",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columnDefs":
+            [{
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                },
+
+                {
+                    "targets": [5],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false
+                }
+
+
+            ],
+            "columns": [
+                { "data": "MenuCategoryId", "name": "MenuCategoryId", "autoWidth": true },
+                { "data": "MenuCategoryName", "name": "MenuCategoryName", "autoWidth": true },
+                { "data": "RoleName", "name": "RoleName", "autoWidth": true },
+                {
+                    "render": function (data, type, full, meta) {
+                        if (full.Status == true) {
+                            return "<lable class='btn btn-primary btn-xs'>Yes</lable>";
+                        }
+                        else {
+                            return "<lable class='btn btn-danger btn-xs'>No</lable>";
+                        }
+                    }
+                },
+                {
+                    "render": function(data, type, full, meta) {
+                        return '<a class="btn btn-primary btn-xs" href="../MenuCategory/Edit/' + full.MenuCategoryId + ' ">' + '<i class="glyphicon glyphicon-edit"></i> Edit </a>';
+                    }
+
+                },
+                {
+                    "render": function (data, type, full, meta)
+                    {
+                        return '<a class="btn btn-danger btn-xs" onclick="Delete(' + full.MenuCategoryId + ');"> <i class="glyphicon glyphicon-trash"></i> Delete </a>';
+                    }
+                }
+            ]
+
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    function Delete(menuCategoryIdValue) {
+        if (confirm("Are you sure you want to Delete this?")) {
+            var requestObject =
+            {
+                menuCategoryId: menuCategoryIdValue
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/MenuCategory/DeleteCategory",
+                data: JSON.stringify(requestObject),
+                contentType: "application/json; charset=utf-8",
+                success: function(data, textStatus, xhr) {
+                    if (data.Result == "success") {
+                        alert('Deleted Data Successfully');
+                        location.reload();
+                    }
+                    if (data.Result == "failed") {
+                        alert('Something Went Wrong');
+                        location.reload();
+                    }
+                },
+                error: function(xhr, status, err) {
+                    if (xhr.status == 401) {
+                        alert('Error');
+                        window.location.href = "/Portal/Logout";
+
+                    }
+
+                    if (xhr.status == 500) {
+                        alert('Error');
+                        window.location.href = "/Portal/Logout";
+                    }
+                }
+            });
+        }
+    }
+
+</script>
+

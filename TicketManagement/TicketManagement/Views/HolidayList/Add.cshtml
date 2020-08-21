@@ -1,0 +1,115 @@
+﻿@model TicketManagement.ViewModels.HolidayViewModel
+
+
+<link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/metro/lightgray/jtable.min.css" rel="stylesheet" />
+
+<!--Adding jTable Plugin-->
+<script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+<!-- Import CSS file for validation engine (in Head section of HTML) -->
+<link href="~/Scripts/validationEngine/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+<script src="~/Template/vendors/moment/min/moment.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#HolidayContainer').jtable({
+            paging: true,
+            pageSize: 10,
+            sorting: true,
+            pageSizeChangeArea: false,
+            actions:
+            {
+                listAction: '/HolidayList/AllHolidayList',
+                deleteAction: '/HolidayList/Delete'
+            },
+            fields: {
+                HolidayId: {
+                    key: true,
+                    list: false
+                },
+                HolidayName: {
+                    title: 'HolidayName'
+                },
+                HolidayDate: {
+                    title: 'HolidayDate',
+                    sorting: false,
+                    display: function (data)
+                    {
+                        return moment(data.record.HolidayDate).format('LL');
+                    }
+                }
+            }
+
+        });
+
+
+
+        $('#BtnClear').click(function (e) {
+
+            window.location.reload();
+        });
+
+        //Load Customer data from server
+        $('#HolidayContainer').jtable('load');
+    });
+
+</script>
+
+
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Add Holidays</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.HolidayDate, htmlAttributes: new { @class = "mandatory" })
+                        @Html.TextBoxFor(model => model.HolidayDate, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                        @Html.ValidationMessageFor(model => model.HolidayDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.HolidayName, htmlAttributes: new { @class = "mandatory" })
+                        @Html.TextBoxFor(model => model.HolidayName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.HolidayName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <br />
+                        <button class="btn btn-round btn btn-success" type="submit">Submit</button>
+                        <a href="/HolidayList/Add" class="btn btn-round btn btn-primary"> Clear</a>
+                    </div>
+                </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div id="HolidayContainer"></div>
+                        </div>
+                    </div>
+                    }
+                </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#HolidayDate").datepicker
+        ({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 1,
+            yearRange: new Date().getFullYear() + ':' + new Date().getFullYear(),
+            onSelect: function (date) {
+            }
+        });
+    });
+</script>

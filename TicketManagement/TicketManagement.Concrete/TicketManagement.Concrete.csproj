@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{08567635-E823-415F-85AF-D23A288BD139}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TicketManagement.Concrete</RootNamespace>
+    <AssemblyName>TicketManagement.Concrete</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.60.1\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.5840.25917, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.6\lib\net40\System.Linq.Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TicketManagement\bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CacheLibrary\MaskingHelper.cs" />
+    <Compile Include="ExportReportConcrete.cs" />
+    <Compile Include="AttachmentsConcrete.cs" />
+    <Compile Include="BusinessHoursConcrete.cs" />
+    <Compile Include="CacheLibrary\CacheHelper.cs" />
+    <Compile Include="CacheLibrary\MenuCacheHelper.cs" />
+    <Compile Include="CategoryConcrete.cs" />
+    <Compile Include="ChartConcrete.cs" />
+    <Compile Include="DashboardTicketCountConcrete.cs" />
+    <Compile Include="DatabaseContext.cs" />
+    <Compile Include="DefaultTicketSettingsConcrete.cs" />
+    <Compile Include="DisplayTicketsConcrete.cs" />
+    <Compile Include="HolidayListConcrete.cs" />
+    <Compile Include="KnowledgebaseConcrete.cs" />
+    <Compile Include="MenuCategoryConcrete.cs" />
+    <Compile Include="MenuConcrete.cs" />
+    <Compile Include="OverdueTypesConcrete.cs" />
+    <Compile Include="PasswordConcrete.cs" />
+    <Compile Include="PriorityConcrete.cs" />
+    <Compile Include="ProcessSettingsConcrete.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderSubMenuConcrete.cs" />
+    <Compile Include="RoleConcrete.cs" />
+    <Compile Include="SavedAssignedRolesConcrete.cs" />
+    <Compile Include="SendingEmailConcrete.cs" />
+    <Compile Include="SLAPoliciesConcrete.cs" />
+    <Compile Include="StaffCheckInStatusConcrete.cs" />
+    <Compile Include="ProfileConcrete.cs" />
+    <Compile Include="StatusConcrete.cs" />
+    <Compile Include="SubMenuConcrete.cs" />
+    <Compile Include="TicketEscalationHistoryConcrete.cs" />
+    <Compile Include="AllTicketGridConcrete.cs" />
+    <Compile Include="TicketHistoryConcrete.cs" />
+    <Compile Include="TicketNotificationConcrete.cs" />
+    <Compile Include="TicketsConcrete.cs" />
+    <Compile Include="TicketsReplyConcrete.cs" />
+    <Compile Include="UserMasterConcrete.cs" />
+    <Compile Include="VerificationConcrete.cs" />
+    <Compile Include="VerifyConcrete.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TicketManagement.Interface\TicketManagement.Interface.csproj">
+      <Project>{4f0b370d-56f0-46bc-b6bd-5c41c51bff57}</Project>
+      <Name>TicketManagement.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketManagement.Models\TicketManagement.Models.csproj">
+      <Project>{4efd3ee1-5ffd-45cc-9136-56faecf6b9ea}</Project>
+      <Name>TicketManagement.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketManagement.ViewModels\TicketManagement.ViewModels.csproj">
+      <Project>{7e151f2c-2d51-4ed8-91ed-cce7ee810b73}</Project>
+      <Name>TicketManagement.ViewModels</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

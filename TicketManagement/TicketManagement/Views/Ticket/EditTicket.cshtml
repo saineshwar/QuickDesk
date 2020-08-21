@@ -1,0 +1,189 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@model TicketManagement.ViewModels.TicketsUserViewModel
+
+
+<script type="text/javascript">
+
+
+    CKEDITOR.config.autoParagraph = false;
+
+</script>
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Edit a ticket</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+
+
+            @if (TempData["MessageTicket"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageTicket"]
+                </div>
+            }
+
+            @if (TempData["ErrorMessageTicket"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["ErrorMessageTicket"]
+                </div>
+            }
+
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @using (Html.BeginForm("EditTicket", "Ticket", FormMethod.Post, new { id = "Ticketform", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.TicketId)
+                @Html.HiddenFor(model => model.TrackingId)
+                @Html.HiddenFor(model => model.CategoryId)
+                @Html.HiddenFor(model => model.PriorityId)
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Contact, new { @class = "form-control", @maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.ListofCategory, "Value", "Text"), new { @class = "form-control",  @disabled = "disabled"  })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.PriorityId, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.PriorityId, new SelectList(Model.ListofPriority, "Value", "Text"), new { @class = "form-control", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.PriorityId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Subject, new { @class = "form-control", @maxlength = 70, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-12">
+                    @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @maxlength = 2000, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    @Html.Label("Attachments Uploaded")
+                    <br />
+                    @foreach (var attachment in Model.ListofAttachments)
+                    {
+                        <a class="btn btn-primary btn-xs"
+                           data-toggle="tooltip" data-placement="top"
+                           title="Download Attachment !" onclick="downloadAttachment('@attachment.AttachmentId')" href="javascript:void(0);"> Download <i class="fa fa-download"></i></a>
+
+                        <a data-toggle="tooltip"
+                           data-placement="top"
+                           title="Delete Attachment !"
+                           class="btn btn-danger btn-xs" onclick="deleteAttachment('@attachment.AttachmentId','@attachment.TicketId')" href="javascript:void(0);"> Delete <i class="fa fa-trash-o"></i></a>
+
+                        @attachment.AttachmentName
+                        <br />
+                    }
+                </div>
+                <br />
+                <div class="col-md-4 col-sm-4 col-xs-12">
+
+                    @Html.Label("Attachments")
+                    <input type="file" id="fileupload_1" onchange="ValidateFile(this);" class="form-control" name="fileupload_1" />
+                    <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+                    <div class="text-danger" name="_val1" id="_val1">
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Attachments")
+                    <input type="file" id="fileupload_2" onchange="ValidateFile(this);" class="form-control" name="fileupload_2" />
+                    <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+                    <div class="text-danger" name="_val2" id="_val2">
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Attachments")
+                    <input type="file" id="fileupload_3" onchange="ValidateFile(this);" class="form-control" name="fileupload_3" />
+                    <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+                    <div class="text-danger" name="_val3" id="_val3">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <br />
+                    <input type="submit" onclick="return confirm('Are you sure you want to update this ticket?');" value="Update Ticket" class="btn btn-primary" />
+                    @Html.ActionLink("Back", "Dashboard", "UserDashboard", null, new { @class = "btn btn-primary" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    
+
+    CKEDITOR.replace('Message', { htmlEncodeOutput: true });
+    function downloadAttachment(attachmentsId) {
+        window.location = "/TicketDetails/DownloadAttachMent?AttachmentId=" + attachmentsId;
+    }
+
+    function deleteAttachment(attachmentsId, ticketId) {
+        var result = confirm("Do you want to delete this attachment!");
+        if (result === true) {
+            if (attachmentsId != "") {
+                var jsonObject =
+                {
+                    attachmentsId: attachmentsId,
+                    TicketId: ticketId
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "../TicketDetails/DeleteAttachment",
+                    dataType: "json",
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data, textStatus, xhr) {
+                        if (data === true) {
+                            alert("Attachment Deleted Successfully");
+                            location.reload();
+                        } else {
+                            alert("Something Went Wrong While Deleting Ticket Please Try Again after Sometime!");
+                        }
+
+                    },
+                    error: function (xhr, status, err) {
+                        if (xhr.status == 400) {
+                            DisplayModelStateErrors(xhr.responseJSON.ModelState);
+                        }
+                    }
+                });
+            }
+        }
+    }
+</script>
+
+
+
+

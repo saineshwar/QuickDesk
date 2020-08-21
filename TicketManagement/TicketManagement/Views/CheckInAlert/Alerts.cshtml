@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAgent_Before_CheckIn.cshtml";
+}
+@using TicketManagement.ViewModels
+
+<h3 class="page-header" style="color: #058"><i class="fa fa-bell-o" style="font-size: 24px; color: #50C878"> </i> Process Check-In-Check-Out</h3>
+
+<div class="row">
+    @if (TempData["DeskMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible">
+            <strong>Message!</strong> @TempData["DeskMessage"]
+        </div>
+    }
+    <div class="col-md-6">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Today's Activities </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+
+                        <th>#</th>
+                        <th>CheckInTime</th>
+                        <th>CheckOutTime</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @{ var counter = 1;}
+                    @foreach (var time in (List<AgentDailyActivityModel>) ViewBag.Data)
+                    {
+
+                        <tr>
+                            <td>@counter</td>
+                            <td><i class="fa fa-clock-o"> </i> @time.CheckInTime</td>
+                            <td><i class="fa fa-clock-o"> </i> @time.CheckOutTime</td>
+                        </tr>
+                        counter++;
+
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Check-In-Check-Out Process</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <ul>
+                    <li>Check In Begins your day.</li>
+                    <li>Check Out Ends your day.</li>
+                    <li>You Need to daily Check In and Check out else it will be marked as absent for current day.</li>
+                    <li><img src="~/Images/online.png"/> Checked In Indicator</li>
+                    <li><img src="~/Images/offline.png"/> Checked Out Indicator</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿@model TicketManagement.ViewModels.UserProfileView
+<div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+    <div class="well profile_view">
+        <div class="col-sm-12">
+            <h4 class="brief">@Model.FullName</h4>
+            <div class="left col-xs-7">
+                <ul class="list-unstyled">
+                    <li><i class="fa fa-briefcase"></i> <strong>Role: </strong> @Model.RoleName</li>
+                    <li><i class="fa fa-envelope"></i> <strong>Email: </strong> @Model.EmailId</li>
+                </ul>
+            </div>
+            <div class="right col-xs-5 text-center">
+                <img src="~/Images/nobody_m.original.jpg" width="150px" height="150px" id="uploadedprofile" alt="" class="img-responsive">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@model TicketManagement.ViewModels.DisplayTicketViewModel
+@using TicketManagement.CommonData
+
+<ul class="list-inline widget_tally">
+    @if (Model != null)
+    {
+        foreach (var data in Model.ListofAttachments)
+        {
+            <li>
+                <p>
+                    @data.AttachmentName
+                    <br />
+                    <span style="width: 70%; float: left;">
+
+                        <a data-toggle="tooltip"
+                           data-placement="top"
+                           title="Download"
+                           class="btn btn-primary btn-xs"
+                           onclick="downloadAttachment('@data.AttachmentId')" href="javascript:void(0);"><i class="fa fa-download"></i> Download</a>
+                        
+                        @if (Model.DeleteStatus == false && Model.StatusId != Convert.ToInt16(StatusMain.Status.Closed) && Model.UserId == Convert.ToInt64(Session["UserId"]))
+                        {
+                            <a data-toggle="tooltip"
+                               data-placement="top"
+                               title="Delete"
+                               class="btn btn-danger btn-xs"
+                               onclick="deleteAttachment('@data.AttachmentId','@data.TicketId')" href="javascript:void(0);"><i class="fa fa-trash-o"></i> Delete</a>
+                        }
+                    
+                    </span>
+                </p>
+            </li>
+        }
+    }
+</ul>

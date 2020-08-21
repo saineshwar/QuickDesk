@@ -1,0 +1,90 @@
+﻿@model TicketManagement.ViewModels.GeneralSettingsViewModel
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Settings</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+
+            @if (TempData["MessageProfileUpdate"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageProfileUpdate"]
+                </div>
+            }
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.GeneralSettingsId)
+
+
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @maxlength = 40 })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.SupportEmailId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.SupportEmailId, new { @class = "form-control", @maxlength = 50 })
+                    @Html.ValidationMessageFor(model => model.SupportEmailId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.WebsiteTitle, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.WebsiteTitle, new { @class = "form-control", @maxlength = "40" })
+                    @Html.ValidationMessageFor(model => model.WebsiteTitle, "", new { @class = "text-danger" })
+                </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.WebsiteUrl, htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.WebsiteUrl, new { @class = "form-control", @maxlength = "40" })
+                        @Html.ValidationMessageFor(model => model.WebsiteUrl, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.CheckBoxFor(model => model.EnableEmailFeature)
+                        @Html.LabelFor(model => model.EnableEmailFeature, htmlAttributes: new { @class = "control-label" })
+
+                        @Html.ValidationMessageFor(model => model.EnableEmailFeature, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.CheckBoxFor(model => model.EnableSmsFeature)
+                        @Html.LabelFor(model => model.EnableSmsFeature, htmlAttributes: new { @class = "control-label" })
+
+                        @Html.ValidationMessageFor(model => model.EnableSmsFeature, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.CheckBoxFor(model => model.EnableSignatureFeature)
+                        @Html.LabelFor(model => model.EnableSignatureFeature, htmlAttributes: new { @class = "control-label" })
+
+                        @Html.ValidationMessageFor(model => model.EnableSignatureFeature, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+
+                        <button class="btn btn-round btn-success" type="submit">Submit</button>
+                        <a href="/SuperAdminConfiguration/AllSmtpSettings" class="btn btn-round btn-primary"> Cancel</a>
+                    </div>
+
+            }
+        </div>
+
+    </div>
+</div>

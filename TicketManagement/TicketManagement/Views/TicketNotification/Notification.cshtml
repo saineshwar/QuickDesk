@@ -1,0 +1,88 @@
+﻿@model List<TicketManagement.ViewModels.TicketNotificationViewModel>
+
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Notification</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            @if (Model.Any())
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>TrackingId</th>
+                            <th>NotificationType</th>
+                            <th>TicketAssignedDate</th>
+                            <th>NotificationDate</th>
+                            <th>Message</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.TrackingId</td>
+                        <td>@item.NotificationType</td>
+                        <td>@item.TicketAssignedDate</td>
+                        <td>@item.NotificationDate</td>
+                        <td>@item.Message</td>
+                        <td>
+                            <button id="btnsubmit" onclick="ViewNotification('@item.TrackingId', '@item.NotificationId');" class="btn btn-info" type="button">View</button>
+                        </td>
+                    </tr>
+                }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <strong>Message!</strong> No Notification
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function ViewNotification(trackingIdValue, notificationIdValue) {
+
+
+        var objectSave =
+        {
+            NotificationId: notificationIdValue
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/TicketNotification/UpdateNotification",
+            data: JSON.stringify(objectSave),
+            contentType: "application/json; charset=utf-8",
+            success: function (data, textStatus, xhr) {
+                if (data.status == "Success") {
+                    window.location.href = "/TicketDetailsAgent/Details?TrackingId=" + trackingIdValue;
+                }
+
+            },
+            error: function (xhr, status, err) {
+                if (xhr.status == 401) {
+                    console.log(xhr);
+                    alert('Error');
+                    window.location.href = "/login/Logout";
+                }
+
+                if (xhr.status == 500) {
+                    console.log(xhr);
+                    alert('Error');
+                    window.location.href = "/login/Logout";
+                }
+            }
+        });
+    }
+</script>

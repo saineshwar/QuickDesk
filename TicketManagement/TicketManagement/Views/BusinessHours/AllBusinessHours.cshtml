@@ -1,0 +1,146 @@
+﻿<link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/metro/lightgray/jtable.min.css" rel="stylesheet" />
+<!--Adding jquery Plugin-->
+<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+<!--Adding jTable Plugin-->
+<script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+<!-- Import CSS file for validation engine (in Head section of HTML) -->
+<link href="~/Scripts/validationEngine/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+
+
+<script>
+    $(document).ready(function () {
+        $('#BusinessHoursContainer').jtable({
+            title: 'All BusinessHours',
+            paging: true,
+            pageSize: 10,
+            sorting: true,
+            pageSizeChangeArea: false,
+            actions:
+            {
+                listAction: '/BusinessHours/AllBusinessHoursList'
+            },
+            fields: {
+                BusinessHoursId: {
+                    key: true,
+                    list: false
+                },
+                Name: {
+                    title: 'Name',
+                    sorting: true
+                },            
+                BusinessHoursName: {
+                    title: 'BusinessHoursType',
+                    sorting: false,
+                },
+                Description: {
+                    title: 'Description',
+                    sorting: false
+                },
+                Details: {
+                    title: 'Action',
+                    sorting: false,
+                    width: '5%',
+                    display: function (data) {
+                        return '<a class="btn btn-primary btn-xs" href="../BusinessHours/Details?id=' + data.record.BusinessHoursId + ' ">' + '<i class="glyphicon glyphicon-edit"></i> Details </a>';
+                    }
+                },
+                Delete: {
+                    title: 'Action',
+                    sorting: false,
+                    width: '5%',
+                    display: function (data) {
+                        return '<button id="BtnSearch" onclick=DeleteBusinessHours(' +
+                            data.record.BusinessHoursId +
+                            ') class="btn btn-danger btn-xs" type="button"><i class="glyphicon glyphicon-trash"></i> Delete</button>';
+                    }
+                }
+            }
+
+        });
+
+        //Re-load records when user click 'load records' button.
+        $('#BtnSearch').click(function (e) {
+            e.preventDefault();
+            $('#BusinessHoursContainer').jtable('load', {
+                Name: $('#Name').val()
+            });
+        });
+
+        $('#BtnClear').click(function (e) {
+
+            window.location.reload();
+        });
+
+        //Load Customer data from server
+        $('#BusinessHoursContainer').jtable('load');
+    });
+
+    function DeleteBusinessHours(value) {
+        $.ajax({
+            type: "POST", //HTTP POST Method
+            url: "/BusinessHours/DeleteBusinessHours",
+            data: { businessHoursId: value },
+            success: function (data)
+            {
+                if (data.Result == "NO")
+                {
+                    alert('Cannot Delete BusinessHours Add ANother BusinessHours to Delete this one!');
+                    location.reload();
+                }
+                else if (data.Result == "OK")
+                {
+                    alert('Default Connection is Updated Successfully');
+                    location.reload();
+                }
+                else if (data.Result == "ERROR")
+                {
+                    alert('Default Connection is Updated Successfully');
+                    location.reload();
+                }
+                else
+                {
+                    alert('Error Occured while Setting Default Connection');
+                }
+
+            }
+        });
+    }
+
+
+</script>
+
+
+
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>All BusinessHoursList</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            <form id="form">
+                <div class="col-lg-4">
+                    <label>Enter BusinessHours Name</label>
+                    <input type="text" class="form-control" id="Name" name="Name" />
+                </div>
+                <div class="col-lg-4" style="margin-top: 25px">
+                    <button id="BtnSearch" class="btn btn-round btn-success" type="submit"><i class="glyphicon glyphicon-search"></i> Search</button>
+                    <a href="/BusinessHours/AllBusinessHours" id="BtnClear" class="btn btn-round btn-primary"><i class="glyphicon glyphicon-repeat"></i> Clear</a>
+                </div>
+            </form>
+
+            <hr />
+            <div class="row">
+                <div class="col-lg-12"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="BusinessHoursContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

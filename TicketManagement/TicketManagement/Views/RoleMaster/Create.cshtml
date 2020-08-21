@@ -1,0 +1,49 @@
+﻿@model TicketManagement.Models.RoleMaster
+
+<div class="col-md-6 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Create Role</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+
+
+
+
+
+
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                    @Html.CheckBoxFor(model => model.Status)
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                   
+                    <a href="/RoleMaster/Create" class="btn btn-round btn btn-primary">Reset</a>
+                    <a href="/RoleMaster/Index" class="btn btn-round btn btn-primary"> Back to List</a>
+                    <button class="btn btn-round btn btn-success" type="submit">Submit</button>
+                </div>
+
+
+            }
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/ValidationScript/role.validate.js"></script>
+

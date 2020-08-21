@@ -1,0 +1,83 @@
+﻿@model TicketManagement.ViewModels.AssignViewUserRoleModel
+
+
+
+
+
+
+<div class="col-md-6 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Assign Role to User</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+
+            @if (TempData["AssignedMessage"] != null)
+            {
+                <p class="alert alert-success" id="successMessage">@TempData["AssignedMessage"]</p>
+            }
+
+            @if (TempData["AssignedErrorMessage"] != null)
+            {
+                <p class="alert alert-danger" id="errorMessage">@TempData["AssignedErrorMessage"]</p>
+            }
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.UserId)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(m => m.RoleId, new SelectList(Model.ListRole, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-round btn-success" type="submit"><i class="fa fa-check-circle"></i> Assign Role</button>
+                    <a href="/AssignRoletoUser/Assign" class="btn btn-round btn-primary"><i class="glyphicon glyphicon-repeat"></i> Clear</a>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // AutoComplete for Usernames
+        $("#Username").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/AssignRoletoUser/GetActiveUsersExceptSuperAdmin",
+                    type: "GET",
+                    dataType: "json",
+                    data: { usernames: request.term },
+                    success: function (data) {
+                        response($.map(data,
+                            function (item) {
+                                return { label: item.Username, value: item.UserId };
+                            }));
+                    }
+                });
+            },
+            error: function (response) {
+                alert(response.responseText);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            select: function (e, i) {
+                $("#Username").val(i.item.label);
+                $("#UserId").val(i.item.value);
+                return false;
+            },
+            minLength: 1
+        });
+    });
+</script>

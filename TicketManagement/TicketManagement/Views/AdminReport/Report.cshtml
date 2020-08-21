@@ -1,0 +1,806 @@
+﻿@model TicketManagement.ViewModels.AdminReportViewModel
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Report</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+            @using (Html.BeginForm("Report", "AdminReport", FormMethod.Post, new { @id = "Reportform" }))
+            {
+
+                if (TempData["ReportMessages"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Message!</strong> @TempData["ReportMessages"]
+                    </div>
+                }
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Report Type", new { @class = "mandatory" })
+                    @Html.DropDownListFor(model => model.ReportId, new SelectList(Model.ListofReport, "Value", "Text"), new { @class = "form-control" })
+
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Category", new { @class = "mandatory" })
+                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.ListofCategory, "Value", "Text"), new { @class = "form-control" })
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Users", new { @class = "mandatory" })
+                    @Html.DropDownListFor(model => model.AgentId, new SelectList(Model.ListofAgent, "Value", "Text"), new { @class = "form-control" })
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Overdue Type", new { @class = "mandatory" })
+                    @Html.DropDownListFor(model => model.OverdueTypeId, new SelectList(Model.ListofOverdueTypes, "Value", "Text"), new { @class = "form-control" })
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Priority", new { @class = "mandatory" })
+                    @Html.DropDownListFor(model => model.PriorityId, new SelectList(Model.ListofPriority, "Value", "Text"), new { @class = "form-control" })
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <i class="fa fa-calendar" style="font-size: 15px;"> </i>   @Html.Label("From Date", new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Fromdate, new { @onkeypress = "return false; alert('Choose From Date');", @class = "form-control" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <i class="fa fa-calendar" style="font-size: 15px;"> </i>   @Html.Label("From Date", new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Todate, new { @onkeypress = "return false; alert('Choose To Date');", @class = "form-control" })
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <br />
+                    <button class="btn btn-round btn btn-success" type="submit"><i class="fa fa-file-excel-o"></i> Export</button>
+                    <a href="/AdminReport/Report" class="btn btn-round btn btn-primary">Reset</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section customscripts{
+
+    <link href="~/Scripts/JqueryUI/jquery-ui.css" rel="stylesheet"/>
+    <script src="/Template/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/JqueryUI/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $.validator.setDefaults({
+                submitHandler: function (form) {
+                    if (confirm("Are you sure you want to Export Report?")) {
+                        form.submit();
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            $("#Reportform").validate({
+                rules: {
+                    ReportId: "required",
+                    CategoryId: {
+                        ValidateCategory: true
+                    },
+                    AgentId: {
+                        ValidateAgent: true
+                    },
+                    OverdueTypeId: {
+                        ValidateOverdueType: true
+                    },
+                    PriorityId: {
+                        ValidatePriority: true
+                    },
+                    Fromdate: {
+                        ValidateFromDate: true
+                    },
+                    Todate: {
+                        ValidateToDate: true
+                    }
+                },
+                messages:
+                {
+                    ReportId: "Please Select Report",
+                    CategoryId: {
+                        ValidateCategory: "Please Select Category"
+                    },
+                    AgentId: {
+                        ValidateAgent: "Please Select Agent"
+                    },
+                    OverdueTypeId: {
+                        ValidateOverdueType: "Please Select OverdueType"
+                    },
+                    PriorityId: {
+                        ValidatePriority: "Please Select Priority"
+                    },
+                    Fromdate: {
+                        ValidateFromDate: "Please Select From date"
+                    },
+                    Todate: {
+                        ValidateToDate: "Please Select To date"
+                    }
+                },
+                errorElement: "span",
+                errorPlacement: function (error, element) {
+                    // Add the `help-block` class to the error element
+                    error.addClass("help-block");
+
+                    if (element.prop("type") === "checkbox") {
+                        error.insertAfter(element.parent("label"));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).parents(".col-sm-5").addClass("has-error").removeClass("has-success");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).parents(".col-sm-5").addClass("has-success").removeClass("has-error");
+                }
+            });
+
+            $.validator.addMethod("ValidateFromDate",
+                function (value, element) {
+                    if ($("#ReportId").val() != "") {
+                        if ($("#ReportId").val() == "1") {
+                            if ($("#Fromdate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "2") {
+                            if ($("#Fromdate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "3") {
+                            if ($("#Fromdate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "4") {
+                            if ($("#Fromdate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "5") {
+                            if ($("#Fromdate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "6") {
+                            if ($("#Fromdate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                        if ($("#ReportId").val() == "7") {
+                            if ($("#Fromdate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                        if ($("#ReportId").val() == "8") {
+                            if ($("#Fromdate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                        if ($("#ReportId").val() == "9") {
+                            if ($("#Fromdate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                    }
+                    return true;
+                });
+
+            $.validator.addMethod("ValidateToDate",
+                function (value, element) {
+                    if ($("#ReportId").val() != "") {
+                        if ($("#ReportId").val() == "1") {
+                            if ($("#Todate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "2") {
+                            if ($("#Todate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "3") {
+                            if ($("#Todate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "4") {
+                            if ($("#Todate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "5") {
+                            if ($("#Todate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "6") {
+                            if ($("#Todate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                        if ($("#ReportId").val() == "7") {
+                            if ($("#Todate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                        if ($("#ReportId").val() == "8") {
+                            if ($("#Todate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                        if ($("#ReportId").val() == "9") {
+                            if ($("#Todate").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                    }
+                    return true;
+                });
+
+            $.validator.addMethod("ValidateOverdueType",
+                function (value, element) {
+                    if ($("#ReportId").val() != "") {
+                        if ($("#ReportId").val() == "3") {
+                            if ($("#OverdueTypeId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "4") {
+                            if ($("#OverdueTypeId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                    }
+                    return true;
+                });
+
+            $.validator.addMethod("ValidatePriority",
+                function (value, element) {
+                    if ($("#ReportId").val() != "") {
+
+                        if ($("#ReportId").val() == "7") {
+                            if ($("#PriorityId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                    }
+                    return true;
+                });
+
+            $.validator.addMethod("ValidateAgent",
+                function (value, element) {
+                    if ($("#ReportId").val() != "") {
+
+                        if ($("#ReportId").val() == "1") {
+                            if ($("#AgentId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "8") {
+                            if ($("#AgentId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "9") {
+                            if ($("#AgentId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                    }
+                    return true;
+                });
+
+            $.validator.addMethod("ValidateCategory",
+                function (value, element) {
+                    if ($("#ReportId").val() != "") {
+                        if ($("#ReportId").val() == "1") {
+                            if ($("#CategoryId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "2") {
+                            if ($("#CategoryId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "3") {
+                            if ($("#CategoryId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "4") {
+                            if ($("#CategoryId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+
+                        if ($("#ReportId").val() == "5") {
+                            if ($("#CategoryId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "6") {
+                            if ($("#CategoryId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "8") {
+                            if ($("#CategoryId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+
+                        if ($("#ReportId").val() == "9") {
+                            if ($("#CategoryId").val() == "") {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                    }
+                    return true;
+                });
+        });
+
+        $(document).ready(function () {
+            $('#Todate').prop('disabled', true);
+
+            $("#Fromdate").datepicker
+            ({
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                numberOfMonths: 1,
+                changeYear: true,
+                yearRange: new Date().getFullYear() + ':' + new Date().getFullYear(),
+                onSelect: function (date) {
+                    $('#Todate').prop('disabled', false);
+                    var dt2 = $('#Todate');
+                    var startDate = $(this).datepicker('getDate');
+                    var minDate = $(this).datepicker('getDate');
+                    dt2.datepicker('setDate', minDate);
+                    startDate.setDate(startDate.getDate() + 180);
+                    //sets dt2 maxDate to the last day of 30 days window
+                    dt2.datepicker('option', 'maxDate', startDate);
+                    dt2.datepicker('option', 'minDate', minDate);
+                    $(this).datepicker('option', 'minDate', minDate);
+                }
+            });
+
+            $("#Todate").datepicker
+            ({
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                changeYear: true,
+                numberOfMonths: 1,
+                yearRange: new Date().getFullYear() + ':' + new Date().getFullYear(),
+                onSelect: function (date) {
+
+                }
+            });
+
+
+            $("#OverdueTypeId").prop('disabled', true);
+            $("#PriorityId").prop('disabled', true);
+            $("#Fromdate").prop('disabled', true);
+            $("#Todate").prop('disabled', true);
+            $("#CategoryId").prop('disabled', true);
+            $("#AgentId").prop('disabled', true);
+
+
+            $("#ReportId").change(function () {
+                if ($("#ReportId").val() == "") {
+                    ClearValues();
+
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#Fromdate").prop('disabled', true);
+                    $("#Todate").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', true);
+                    $("#AgentId").prop('disabled', true);
+                }
+
+                if ($("#ReportId").val() == "1") {
+
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', false);
+
+                    ClearValues();
+                }
+
+                if ($("#ReportId").val() == "2") {
+
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', true);
+
+                    ClearValues();
+                }
+
+                if ($("#ReportId").val() == "3") {
+                    $("#OverdueTypeId").prop('disabled', false);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', true);
+                    ClearValues();
+                }
+
+                if ($("#ReportId").val() == "4") {
+                    $("#OverdueTypeId").prop('disabled', false);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', true);
+                    ClearValues();
+                }
+
+                if ($("#ReportId").val() == "5") {
+
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', true);
+                    ClearValues();
+                }
+
+                if ($("#ReportId").val() == "6") {
+
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', true);
+                    ClearValues();
+                }
+
+                if ($("#ReportId").val() == "7") {
+
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', false);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#CategoryId").prop('disabled', true);
+                    $("#AgentId").prop('disabled', true);
+                    ClearValues();
+                }
+
+                if ($("#ReportId").val() == "8") {
+
+
+
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#Fromdate").prop('disabled', true);
+                    $("#Todate").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', false);
+
+                    ClearValues();
+                }
+
+                if ($("#ReportId").val() == "9") {
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', false);
+                    ClearValues();
+                }
+            });
+
+            if ('@Model.ReportId' != "") {
+
+                if ('@Model.ReportId' == "1") {
+
+
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', false);
+                }
+
+                if ('@Model.ReportId' == "2") {
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', false);
+                }
+
+                if ('@Model.ReportId' == "3") {
+                    $("#OverdueTypeId").prop('disabled', false);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', true);
+                }
+
+                if ('@Model.ReportId' == "4") {
+                    $("#OverdueTypeId").prop('disabled', false);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', true);
+                }
+
+                if ('@Model.ReportId' == "5") {
+
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', true);
+                }
+
+                if ('@Model.ReportId' == "6") {
+
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', true);
+                }
+
+                if ('@Model.ReportId' == "7") {
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', false);
+                    $("#Fromdate").prop('disabled', false);
+                    $("#Todate").prop('disabled', false);
+                    $("#CategoryId").prop('disabled', true);
+                    $("#AgentId").prop('disabled', true);
+                }
+
+                if ('@Model.ReportId' == "8") {
+
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#Fromdate").prop('disabled', true);
+                    $("#Todate").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', false);
+                }
+
+
+                if ('@Model.ReportId' == "9") {
+
+                    $("#OverdueTypeId").prop('disabled', true);
+                    $("#PriorityId").prop('disabled', true);
+                    $("#Fromdate").prop('disabled', true);
+                    $("#Todate").prop('disabled', true);
+                    $("#CategoryId").prop('disabled', false);
+                    $("#AgentId").prop('disabled', false);
+                }
+            }
+
+            $("#CategoryId").change(function () {
+
+                var objectcategory =
+                {
+                    categoryId: $("#CategoryId").val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminReport/GetAllAgentUsers",
+                    data: JSON.stringify(objectcategory),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data, textStatus, xhr) {
+                        $("#AgentId").empty();
+                        $.each(data,
+                            function (index, optionData) {
+                                $("#AgentId").append("<option text='" +
+                                    optionData.Text +
+                                    "' value='" +
+                                    optionData.Value +
+                                    "'>" +
+                                    optionData.Text +
+                                    "</option>");
+                            });
+                    },
+                    error: function (xhr, status, err) {
+                        if (xhr.status == 401) {
+                            alert('Error');
+                            window.location.href = "/Portal/Logout";
+                        }
+
+                        if (xhr.status == 500) {
+                            alert('Error');
+                            window.location.href = "/Portal/Logout";
+                        }
+                    }
+                });
+
+            });
+
+            if ('@Model.CategoryId' != '' && '@Model.CategoryId' != '0') {
+                var objectcategory =
+                {
+                    categoryId: '@Model.CategoryId'
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminReport/GetAllAgentUsers",
+                    data: JSON.stringify(objectcategory),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data, textStatus, xhr) {
+                        $("#AgentId").empty();
+                        $.each(data,
+                            function (index, optionData) {
+                                $("#AgentId").append("<option text='" +
+                                    optionData.Text +
+                                    "' value='" +
+                                    optionData.Value +
+                                    "'>" +
+                                    optionData.Text +
+                                    "</option>");
+                            });
+
+                        if ('@Model.AgentId' != '' && '@Model.AgentId' != '0')
+                        {
+                            $("#AgentId").val('@Model.AgentId');
+                        }
+                    },
+                    error: function (xhr, status, err) {
+                        if (xhr.status == 401) {
+                            alert('Error');
+                            window.location.href = "/Portal/Logout";
+                        }
+
+                        if (xhr.status == 500) {
+                            alert('Error');
+                            window.location.href = "/Portal/Logout";
+                        }
+                    }
+                });
+
+            }
+        });
+
+        function ClearValues() {
+
+            $("#CategoryId").val("");
+            $("#OverdueTypeId").val("");
+            $("#PriorityId").val("");
+            $("#Fromdate").val("");
+            $("#Todate").val("");
+            $("#CategoryId").val("");
+            $("#AgentId").val("");
+        }
+
+
+
+    </script>
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

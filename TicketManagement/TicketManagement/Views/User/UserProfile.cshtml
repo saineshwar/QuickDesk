@@ -1,0 +1,142 @@
+﻿@model TicketManagement.ViewModels.UsermasterEditView
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div class="">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-cogs" style="font-size: 24px; color: #50C878"> </i> Settings </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <ul class="nav nav-tabs" id="myTab">
+                    <li id="li1" class="active"><a href="#settings" data-toggle="tab">Settings</a></li>
+                    <li id="li2"><a href="#profileimage" data-toggle="tab">Profile Image</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="settings">
+                        @if (TempData["MessageProfileUpdate"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Message!</strong> @TempData["MessageProfileUpdate"]
+                            </div>
+                        }
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <h2>My Details</h2>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "mandatory" })
+                                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "mandatory" })
+                                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.EmailId, htmlAttributes: new { @class = "mandatory" })
+                                    @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control", @maxlength = 50 })
+                                    @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control", @maxlength = "10" })
+                                    @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="clearfix"></div>
+                                <div class="col-lg-6" style="margin-top: 20px;">
+
+                                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "mandatory" })
+                                    @Html.RadioButtonFor(model => model.Gender, "M") @Html.Label("", "Male")
+                                    @Html.RadioButtonFor(model => model.Gender, "F") @Html.Label("", "Female")
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <br>
+                                    <button class="btn btn-success" type="submit"><i class="fa fa-check-circle"></i> Save Changes</button>
+                                    <a href="/UserDashboard/Dashboard" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i> Cancel</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="tab-pane" id="profileimage">
+                        <h2>Change profile image</h2>
+                        <hr>
+                        <div id="img_profile">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div align="left">
+                                        <img alt="User Pic" src="~/Images/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive">
+                                        <br />
+                                        <input id="profileimageupload_1" onchange="ValidateFile(this);" name="profileimageupload_1" class="form-control" type="file">
+                                        <div class="text-danger" name="_val1" id="_val1">
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="img_profile_uploaded">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div align="left">
+                                        <img alt="User Pic" class="img-thumbnail" height="100px" width="200px" id="uploadedprofile">
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <br>
+                                    <button class="btn btn-danger" id="bntDeleteProfile" name="bntDeleteProfile" type="submit"><i class="fa fa-check-circle"></i> Delete Profile Pic</button>
+                                    <a href="/UserDashboard/Dashboard" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i> Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #profile-image1 {
+        cursor: pointer;
+        width: 100px;
+        height: 100px;
+        border: 2px solid #03b1ce;
+    }
+
+    .tital {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .bot-border {
+        border-bottom: 1px #f8f8f8 solid;
+        margin: 5px 0 5px 0;
+    }
+</style>
+
+<script src="~/Scripts/ValidationScript/user.settings.js"></script>

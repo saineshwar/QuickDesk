@@ -1,0 +1,139 @@
+﻿@section customscripts{
+<link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/metro/lightgray/jtable.min.css" rel="stylesheet" />
+<!--Adding jquery Plugin-->
+<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+<!--Adding jTable Plugin-->
+<script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+
+<link href="~/Scripts/validationEngine/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+
+<script>
+    $(document).ready(function () {
+        $('#KnowledgebaseContainer').jtable({
+            title: 'Knowledge base List',
+            paging: true,
+            pageSize: 10,
+            sorting: true,
+            pageSizeChangeArea: false,
+            actions:
+            {
+                listAction: '/Knowledgebase/KnowledgebaseList'
+            },
+            fields: {
+                KnowledgebaseId: {
+                    key: true,
+                    list: false
+                    
+                },
+                Subject: {
+                    sorting: false,
+                    title: 'Subject',
+                    width: '30%'
+                },
+                CategoryName: {
+                    title: 'CategoryName',
+                    sorting: false,
+                    width: '10%'
+                },
+                KnowledgebaseTypeName: {
+                    title: 'KnowledgebaseTypeName',
+                    sorting: false,
+                    width: '5%'
+                }, Status: {
+                    title: 'Status',
+                    sorting: false,
+                    type: 'checkbox',
+                    values: { 'false': 'Deactivate', 'true': 'Active' },
+                    defaultValue: 'true',
+                    width: '5%'
+                },
+                Edit: {
+                    title: 'Action',
+                    sorting: false,
+                    width: '5%',
+                    display: function (data) {
+                        return '<a class="btn btn-info btn-xs" href="../Knowledgebase/Edit?id=' + data.record.KnowledgebaseId + ' ">' + '<i class="glyphicon glyphicon-edit"></i> Edit </a>';
+                    }
+                },
+                Article: {
+                    title: 'View',
+                    sorting: false,
+                    width: '5%',
+                    display: function (data) {
+                        return '<a class="btn btn-primary btn-xs" href="../Knowledgebase/Article?id=' + data.record.KnowledgebaseId + ' ">' + '<i class="glyphicon glyphicon-file"></i> View </a>';
+                    }
+                }
+            }
+
+        });
+
+        //Re-load records when user click 'load records' button.
+        $('#BtnSearch').click(function (e) {
+            e.preventDefault();
+            $('#KnowledgebaseContainer').jtable('load',
+                {
+                    subject: $('#subject').val(),
+                    categoryId: $("#DropCategory").val()
+                });
+        });
+
+        $('#BtnClear').click(function (e) {
+
+            window.location.reload();
+        });
+
+        //Load Customer data from server
+        $('#KnowledgebaseContainer').jtable('load');
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Knowledgebase/BindCategory",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $.each(data, function (i) {
+                    var optionhtml = '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    $("#DropCategory").append(optionhtml);
+                });
+            }
+        });
+    });
+</script>
+}
+<h3 class="page-header" style="color: #058"><i class="fa fa-book" style="font-size: 24px; color: #50C878"> </i> All Knowledge Base</h3>
+
+<div class="row">
+    <form id="form">
+        <div class="col-lg-4">
+            <label>Enter Subject</label>
+            <input type="text" class="form-control" id="subject" name="subject" />
+        </div>
+        <div class="col-lg-4">
+            <label>CategoryName</label>
+            <select class="form-control" name="DropCategory" id="DropCategory"></select>
+        </div>
+        <div class="col-lg-4" style="margin-top: 25px">
+            <button id="BtnSearch" class="btn btn-round btn-success" type="submit"> Search</button>
+            <a href="/Knowledgebase/AllKnowledgebase" id="BtnClear" class="btn btn-round btn-primary">Clear</a>
+        </div>
+    </form>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12"></div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="KnowledgebaseContainer"></div>
+    </div>
+</div>
+
+
+
+
+

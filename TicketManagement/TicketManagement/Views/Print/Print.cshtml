@@ -1,0 +1,101 @@
+﻿@model TicketManagement.ViewModels.DisplayTicketViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ticket</title>
+    <style type="text/css">
+        body, table, td, p {
+            color: black;
+            font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        hr {
+            border: 0;
+            color: #9e9e9e;
+            background-color: #9e9e9e;
+            height: 1px;
+            width: 100%;
+            text-align: left;
+        }
+
+        table { page-break-inside:auto }
+        div   { page-break-inside:avoid; } /* This is the key */
+        thead { display:table-header-group }
+        tfoot { display:table-footer-group }
+    </style>
+</head>
+
+@if (!string.IsNullOrEmpty(Model.TrackingId))
+{
+    <body onload="window.print();">
+        <table>
+            <tr>
+                <td style="width: 10%">Name :</td>
+                <td>@Html.Raw(Model.Name)</td>
+            </tr>
+            <tr>
+                <td>CategoryName :</td>
+                <td>@Html.Raw(Model.CategoryName)</td>
+            </tr>
+            <tr>
+                <td>PriorityName :</td>
+                <td>@Html.Raw(Model.PriorityName)</td>
+            </tr>
+            <tr>
+                <td>Subject :</td>
+                <td>@Html.Raw(Model.Subject)</td>
+            </tr>
+            <tr>
+                <td>Message :</td>
+                <td>@Html.Raw(Model.Message)</td>
+            </tr>
+        </table>
+        <hr />
+        @if (Model.ViewMainModel.ListofTicketreply.Count > 0)
+        {
+            for (int i = 0; i < Model.ViewMainModel.ListofTicketreply.Count; i++)
+            {
+                <table>
+                    <tr>
+                        <td style="width: 10%">Replied_Date :</td>
+                        <td>@Html.Raw(Model.ViewMainModel.ListofTicketreply[i].CreatedDateDisplay)</td>
+                    </tr>
+                    <tr>
+                        <td>Name :</td>
+                        <td>@Html.Raw(Model.ViewMainModel.ListofTicketreply[i].RepliedUserName)</td>
+                    </tr>
+                    <tr>
+                        <td>Email :</td>
+                        <td>@Html.Raw(Model.ViewMainModel.ListofTicketreply[i].Email)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Message :</td>
+                        <td>@Html.Raw(Model.ViewMainModel.ListofTicketreply[i].Message)</td>
+                    </tr>
+                </table>
+                <hr />
+            }
+        }
+
+    </body>
+}
+else
+{
+    <body>
+        <div class="alert alert-danger">
+            <strong>Info !</strong> No Data to Print .
+        </div>
+    </body>
+}
+</html>

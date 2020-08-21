@@ -1,0 +1,69 @@
+﻿@model TicketManagement.ViewModels.CreateNewUserViewModel
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Create User</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            @if (TempData["MessageCreateUsers"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageCreateUsers"]
+                </div>
+            }
+            
+            @if (TempData["MessageCreateUsersErrors"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageCreateUsersErrors"]
+                </div>
+            }
+            
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.EmailId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control", @maxlength = 50 })
+                    @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control", @maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <br/>
+                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "mandatory" })
+                    @Html.RadioButtonFor(model => model.Gender, "M") @Html.Label("", "Male")
+                    @Html.RadioButtonFor(model => model.Gender, "F") @Html.Label("", "Female")
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <br />
+                    <button class="btn btn-round btn btn-success" type="submit"> Submit</button>
+                    <a href="/CreateNewUser/Create" class="btn btn-round btn btn-primary"><i class="glyphicon glyphicon-repeat"></i> Clear</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

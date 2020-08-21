@@ -1,0 +1,298 @@
+﻿@using TicketManagement.Models
+@using TicketManagement.CommonData
+@model TicketManagement.ViewModels.DisplayTicketViewModel
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-ticket" style="font-size: 24px; color: #50C878"> </i> View Ticket </h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            <div class="col-md-9 col-xs-9">
+
+                <div style="margin-bottom: 10px">
+
+                    @if (Model.FirstResponseStatus == true)
+                    {
+                        <span data-toggle="tooltip" style="margin-right: 5px" data-placement="bottom" title="@Model.FirstResponseDue !" class="label label-danger">FirstResponse Overdue</span>
+                    }
+
+                    @if (Model.ResolutionStatus == true)
+                    {
+                        <span data-toggle="tooltip" style="margin-right: 5px" data-placement="bottom" title="@Model.ResolutionDue !" class="label label-danger">Resolution Overdue</span>
+                    }
+
+                    @if (Model.EveryResponseStatus == true)
+                    {
+                        <span data-toggle="tooltip" style="margin-right: 5px" data-placement="bottom" title="EVERY RESPONSE DUE !" class="label label-danger">Every Response Overdue</span>
+                    }
+
+                </div>
+
+                @if (TempData["TicketReplyMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible">
+                        <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Message!</strong> @TempData["TicketReplyMessage"]
+                    </div>
+                }
+
+                @if (Model.StatusId == Convert.ToInt32(StatusMain.Status.Resolved))
+                {
+                    <div class="alert alert-warning alert-dismissible">
+                        <strong>Message!</strong> This ticket is Resolved.
+                    </div>
+                }
+
+                @if (Model.DeleteStatus == true)
+                {
+                    <div class="alert alert-info">
+                        <strong>Info!</strong> Your Ticket has been Deleted.
+                    </div>
+                }
+
+                @if (Model.StatusId == Convert.ToInt16(StatusMain.Status.Closed))
+                {
+                    <div class="alert alert-info">
+                        <strong>Info!</strong> Ticket Closed.
+                    </div>
+                }
+
+                <div class="panel panel-info">
+                    <div data-toggle="collapse" data-target="#collapseMain" class="panel-heading">
+
+                        <div class="col-sm-5 col-xs-12">
+                            <i class="fa fa-user" style="font-size: 24px; color: #000000"></i>
+                            @Model.Name
+
+                            <button type="button" class="btn btn-default btn-xs">@Model.RoleName</button>
+
+                        </div>
+                        <div class="col-sm-5 col-xs-12">
+
+                            <div class="pull-right">
+                                @if (Model.TicketLockStatus == 1)
+                                {
+                                    <i class="fa fa-lock" style="color: gold" aria-hidden="true"></i>
+                                    <text> Locked Ticket </text>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-12">
+                            <div class="dropdown pull-right">
+                                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Options
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    @if (Model.DeleteStatus == false && Model.StatusId != Convert.ToInt16(StatusMain.Status.Closed) && Model.UserId == Convert.ToInt64(Session["UserId"]))
+                                    {
+                                        <li><a href="/Ticket/EditTicket?trackingid=@Model.TrackingId">Edit Ticket</a></li>
+                                    }
+                                    <li><a onclick="Sendprint('@Model.TrackingId')" href="javascript:void(0);">Print</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="collapseMain" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h2> @Html.Raw(Model.Subject)</h2>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    Created by - @Model.Name
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <i style="font-size: 14px; color: #50C878" class="fa fa-clock-o"></i> CreatedDate - @Model.CreatedDate
+                                </div>
+                                <hr />
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    @Html.HiddenFor(m => m.FirstResponseStatus)
+                                    @Html.HiddenFor(m => m.ResolutionStatus)
+                                    @Html.HiddenFor(m => m.EscalationStatus)
+                                    @Html.HiddenFor(m => m.EveryResponseStatus)
+                                    @Html.HiddenFor(m => m.TicketId)
+                                    <div class="message">@Html.Raw(Model.Message)</div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.ViewMainModel.ListofTicketreply.Count > 0)
+                {
+                    Html.RenderPartial("_TicketReplyHistory", Model.ViewMainModel);
+                }
+
+                @if (Model.DeleteStatus == false && Model.StatusId != Convert.ToInt16(StatusMain.Status.Closed))
+                {
+
+                    if (Model.ViewMainModel.ListofTicketreply.Count > 0)
+                    {
+                        if (Model.TicketLockStatus != 1)
+                        {
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><i class="fa fa-ticket"></i> Add reply</div>
+                                <div class="panel-body">
+
+                                    @if (Model.TicketReply != null)
+                                    {
+                                        using (Html.BeginForm("Details", "TicketDetails", FormMethod.Post, new { id = "ReplyTicketform", enctype = "multipart/form-data" }))
+                                        {
+                                            {
+                                                Html.RenderPartial("_TicketReply", Model.TicketReply);
+                                            }
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Info!</strong> This ticket has been locked, You will not be able to post a reply on this Ticket.
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <strong>Info!</strong> Your Ticket will be Replied Soon.
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-md-3 col-xs-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"
+                            data-toggle="collapse"
+                            data-target="#collapseinfo">
+                            <i class="fa fa-info-circle"></i> Ticket Information
+                        </h4>
+                    </div>
+
+                    <div id="collapseinfo" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <i style="font-size: 14px; color: #50C878" class="fa fa-ticket"></i> <small>Ticket</small> <br />  @Model.TrackingId
+                            <hr />
+                            <i style="font-size: 14px; color: #50C878" class="fa fa-clock-o"></i>   <small>CreatedDate</small><br /> @Model.CreatedDate
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"
+                            data-toggle="collapse"
+                            data-target="#collapsestatus">
+                            <i class="fa fa-info-circle"></i> Priority/Status
+                        </h4>
+                    </div>
+                    <div id="collapsestatus" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            @Html.Label("PriorityName :-")
+                            @Model.PriorityName
+                            <br />
+                            @Html.Label("Category :-")
+                            @Model.CategoryName
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"
+                            data-toggle="collapse"
+                            data-target="#collapseAttachment">
+                            <i class="glyphicon glyphicon-paperclip"></i> Attachments
+                        </h4>
+                    </div>
+
+                    <div id="collapseAttachment" class="panel-collapse collapse in">
+                        <div class="panel-body">
+
+                            @{
+                                Html.RenderPartial("_TicketAttachment", Model);
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    CKEDITOR.replace('Message', { htmlEncodeOutput: true });
+
+    function downloadAttachment(attachmentsId) {
+        window.location = "/TicketDetails/DownloadAttachMent?AttachmentId=" + attachmentsId;
+    }
+
+    function deleteAttachment(attachmentsId, ticketId) {
+        var result = confirm("Do you want to delete this attachment!");
+        if (result === true) {
+            if (attachmentsId != "") {
+                var jsonObject =
+                {
+                    attachmentsId: attachmentsId,
+                    TicketId: ticketId
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "../TicketDetails/DeleteAttachment",
+                    dataType: "json",
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data, textStatus, xhr) {
+                        if (data === true) {
+                            alert("Attachment Deleted Successfully");
+                            location.reload();
+                        } else {
+                            alert("Something Went Wrong While Deleting Ticket Please Try Again after Sometime!");
+                        }
+
+                    },
+                    error: function (xhr, status, err) {
+                        if (xhr.status == 400) {
+                            DisplayModelStateErrors(xhr.responseJSON.ModelState);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    function Sendprint(value) {
+        window.open('/Print/Ticket?trackingId=' + value, '_blank');
+        return false;
+    }
+</script>

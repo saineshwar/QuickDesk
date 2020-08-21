@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutRegister.cshtml";
+}
+
+<div class="x_panel">
+    <div class="x_title">
+        <h3>Registration Verification Completed</h3>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        @if (TempData["RegistrationCompleted"] != null)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <strong>Info!</strong> @TempData["RegistrationCompleted"] <a class="btn btn-success" href="/Login/Login"> Back to Login page</a>
+            </div>
+        }
+    </div>
+</div>

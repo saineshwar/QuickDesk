@@ -1,0 +1,151 @@
+﻿
+<link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/metro/lightgray/jtable.min.css" rel="stylesheet" />
+<!--Adding jquery Plugin-->
+<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+<!--Adding jTable Plugin-->
+<script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+<!-- Import CSS file for validation engine (in Head section of HTML) -->
+<link href="~/Scripts/validationEngine/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/AllRoles/GetAllActiveRolesNotAgentRole",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $.each(data, function (i) {
+                    var optionhtml = '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    $("#DropRoles").append(optionhtml);
+                });
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#UserTableContainer').jtable({
+            title: 'UsersList',
+            paging: true,
+            pageSize: 10,
+            sorting: true,
+            pageSizeChangeArea: false,
+            actions:
+            {
+                listAction: '/AllUsers/UserList'
+            },
+            fields: {
+                UserId: {
+                    key: true,
+                    list: false
+                },
+                UserName: {
+                    title: 'UserName'
+                },
+                FirstName: {
+                    title: 'FirstName',
+                    sorting: false
+                },
+                LastName: {
+                    title: 'LastName',
+                    sorting: false
+                },
+                EmailId: {
+                    title: 'EmailId'
+                },
+                MobileNo: {
+                    title: 'MobileNo',
+                    sorting: false
+                },
+                RoleName: {
+                    title: 'RoleName',
+                    sorting: false
+                },
+                Gender: {
+                    title: 'Gender',
+                    sorting: false,
+                    values: { 'M': 'Male', 'F': 'Female' }
+                },
+                Status: {
+                    title: 'Status',
+                    sorting: false,
+                    type: 'checkbox',
+                    values: { 'false': 'Deactivate', 'true': 'Active' },
+                    defaultValue: 'true'
+                },
+                Edit: {
+                    title: 'Action',
+                    sorting: false,
+                    width: '5%',
+                    display: function (data)
+                    {
+                        return '<a class="btn btn-primary btn-xs" href="../CreateUsers/Edit?id=' + data.record.UserId + ' ">' + '<i class="glyphicon glyphicon-edit"></i> Edit </a>';
+                    }
+                }
+            }
+
+        });
+
+        //Re-load records when user click 'load records' button.
+        $('#BtnSearch').click(function (e) {
+            e.preventDefault();
+            $('#UserTableContainer').jtable('load', {
+                username: $('#username').val(),
+                roleid: $('#DropRoles').val()
+            });
+        });
+
+        $('#BtnClear').click(function (e) {
+
+            window.location.reload();
+        });
+
+        //Load Customer data from server
+        $('#UserTableContainer').jtable('load');
+    });
+
+</script>
+
+
+
+
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>All UsersList</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            <form id="form">
+                <div class="col-lg-4">
+                    <label>Enter Username</label>
+                    <input type="text" class="form-control" id="username" name="username" />
+                </div>
+                <div class="col-lg-4">
+                    <label>Roles</label>
+                    <select class="form-control" name="DropRoles" id="DropRoles"></select>
+                </div>
+                <div class="col-lg-4" style="margin-top: 25px">
+                    <button id="BtnSearch" class="btn btn-round btn-success" type="submit"><i class="glyphicon glyphicon-search"></i> Search</button>
+                    <a href="/AllUsers/Show" id="BtnClear" class="btn btn-round btn-primary"><i class="glyphicon glyphicon-repeat"></i> Clear</a>
+                </div>
+            </form>
+
+            <hr />
+
+
+            <div class="col-lg-12">
+                <div id="UserTableContainer"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+

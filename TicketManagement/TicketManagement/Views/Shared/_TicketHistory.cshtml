@@ -1,0 +1,66 @@
+﻿@using TicketManagement.ViewModels
+@model List<TicketHistoryResponse>
+
+
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        string stylename;
+        string remarkText;
+        stylename = string.Concat("alert alert-", item.Viewcolor);
+        remarkText = string.Empty;
+
+        <div class="@stylename">
+
+            <div class="row">
+                <div class="col-lg-6 text-left">
+                    <button type="button" id="btnActivities" class="btn btn-dark">@item.Nameinitial</button>
+                    <strong>@item.Name</strong>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <button type="button" id="btnActivities" class="btn btn-primary btn-xs">@item.Activities</button>
+                </div>
+                <div class="col-lg-12">
+                    @item.Message
+                </div>
+                <div class="col-lg-4 text-left">
+                    <strong>@item.ProcessDate</strong>
+                </div>
+                <div class="col-lg-8 text-right">
+
+                    @if (!string.IsNullOrEmpty(item.PriorityName))
+                    {
+                        <span data-toggle="tooltip" style="margin-right: 5px" data-placement="bottom" class="btn btn-danger btn-xs">
+                            Priority :- <strong>@item.PriorityName</strong>
+                        </span>
+                    }
+
+
+                    @if (!string.IsNullOrEmpty(item.StatusText))
+                    {
+                        <span data-toggle="tooltip" style="margin-right: 5px" data-placement="bottom" class="btn btn-danger btn-xs">
+                            Status :- <strong>@item.StatusText</strong>
+                        </span>
+                    }
+
+
+                    @if (!string.IsNullOrEmpty(item.CategoryName))
+                    {
+                        <span data-toggle="tooltip" style="margin-right: 5px" data-placement="bottom" class="btn btn-danger btn-xs">
+                            Category :- <strong>@item.CategoryName</strong>
+                        </span>
+                    }
+
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+    }
+}

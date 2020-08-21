@@ -1,0 +1,50 @@
+﻿@model TicketManagement.ViewModels.ForgotPasswordModel
+@using CaptchaMvc.HtmlHelpers
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<body class="login">
+    <div>
+        <a class="hiddenanchor" id="signup"></a>
+        <a class="hiddenanchor" id="signin"></a>
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    @using (Html.BeginForm("Process", "PasswordReset", FormMethod.Post, new { @id = "resetform", @name = "resetform", @class = "user" }))
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.AntiForgeryToken()
+                        <h1>Reset Password</h1>
+
+                        if (TempData["PasswordResetMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Info!</strong> @TempData["PasswordResetMessage"]
+                            </div>
+                        }
+
+                        <div style="text-align: left;">
+                            @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control", @placeholder = "EmailId", @maxlength = 50, @autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div>
+                            <input id="btnsubmit" class="btn btn-primary" type="submit" value="Reset Password">
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="separator">
+                            <p class="change_link">
+                                Back to Login !
+                                <a href="/Login/Login" class="to_register"> Back </a>
+                            </p>
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+</body>

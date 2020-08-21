@@ -1,0 +1,100 @@
+﻿@model TicketManagement.ViewModels.LoginViewModel
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+
+<body class="login">
+    <div>
+        <a class="hiddenanchor" id="signup"></a>
+        <a class="hiddenanchor" id="signin"></a>
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @id = "loginform", @name = "loginform", @class = "user" }))
+                    {
+
+                        @Html.AntiForgeryToken()
+                        <h1>Login Form</h1>
+
+                        if (TempData["LoginErrors"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Info!</strong> @TempData["LoginErrors"]
+                            </div>
+                        }
+
+
+                        if (TempData["TokenErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Info!</strong> @TempData["TokenErrorMessage"]
+                            </div>
+                        }
+
+                        if (TempData["TokenMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Info!</strong> @TempData["TokenMessage"]
+                            </div>
+                        }
+
+                        if (TempData["forgotpasswordmessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Info!</strong> @TempData["forgotpasswordmessage"]
+                            </div>
+                        }
+
+                        <div style="text-align: left;">
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control form-control-user", @placeholder = "Username", @maxlength = 20, @autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+                        <div style="text-align: left;">
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control form-control-user", @placeholder = "Password", @maxlength = 150, @autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            <input id="btnsubmit" class="btn btn-primary" type="submit" value="Sign in To Account">
+                            <a class="reset_pass" href="/PasswordReset/Process">Lost your password?</a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="separator">
+                            <p class="change_link">
+                                New to site?
+                                <a href="/Registration/Register" class="to_register"> Create Account </a>
+                            </p>
+                            <div class="clearfix"></div>
+                            <br />
+                            <div>
+                                <img src="~/Images/logo.png" />
+                            </div>
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="~/Scripts/crypto/sha512.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnsubmit").click(function () {
+            if ($('#Password').val() != "") {
+                var password = $('#Password').val();
+                var passwordhash = sha512(password);
+                $('#Password').val(passwordhash);
+            }
+            $("#loginform").submit();
+
+        });
+    });
+
+</script>

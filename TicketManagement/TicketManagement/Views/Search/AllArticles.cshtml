@@ -1,0 +1,35 @@
+﻿@using TicketManagement.Models
+@model List<TicketManagement.ViewModels.AllKnowledgebase>
+
+
+<div class="">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-book" style="font-size: 24px; color: #50C878"> </i> Knowledge Base </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <h4>Categories</h4>
+                <hr/>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        @for (var index = 0; index < Model.Count; index++)
+                        {
+                            var tempcategory = Model[index];
+                            <div class="col-md-4">
+                                <i class="fa fa-folder" style="font-size: 20px; color:#ffd700"></i> <a href="/Search/Article?categoryid=@tempcategory.CategoryId">@tempcategory.CategoryName </a> (@tempcategory.KnowledgebaseCount)
+                                <br />
+                                <i class="fa fa-arrow-right" style="font-size: 10px; color: crimson"> </i>  @tempcategory.CategoryDescription
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

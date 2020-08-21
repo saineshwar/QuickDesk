@@ -1,0 +1,166 @@
+﻿@using TicketManagement.Models
+@model List<TicketManagement.ViewModels.KnowledgeSearch>
+
+
+<div class="">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2> Search </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div class="col-lg-12">
+
+                    <div class="col-lg-8">
+                        <div class="top_search">
+                            <input id="search" class="form-control" type="text"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="button" class="btn btn-round btn-success" id="BtnSearch">Search</button>
+                        <button type="button" class="btn btn-round btn-primary" id="BtnClear">Clear</button>
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-lg-12">
+
+                    <h2>Article</h2>
+                    <hr />
+                    <div id="SearchData">
+                        @if (Model != null)
+                        {
+                            if (Model.Count > 0)
+                            {
+
+
+                                <table>
+                                    @foreach (var tempKnowledgeSearch in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <i class="fa fa-file" style="font-size:10px"> </i>
+                                                <a target="_blank" href="/Search/ArticleView?id=@tempKnowledgeSearch.KnowledgebaseId">An Article From @tempKnowledgeSearch.CategoryName Category </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <i class="fa fa-arrow-right" style="font-size: 10px; color: crimson"> </i>  @tempKnowledgeSearch.Subject
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <br />
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+
+                            }
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    
+
+</div>
+@section customscripts{
+    <link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet"/>
+    <script src="~/Scripts/JqueryUI/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#search").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "/Search/GetAllArticle",
+                        type: "GET",
+                        dataType: "json",
+                        data: { searchtext: request.term },
+                        success: function(data) {
+                            response($.map(data,
+                                function(item) {
+                                    return { label: item.Subject, value: item.KnowledgebaseId };
+                                }));
+                        }
+                    });
+                },
+                error: function(response) {
+                    alert(response.responseText);
+                },
+                failure: function(response) {
+                    alert(response.responseText);
+                },
+                select: function(e, i) {
+                    $("#search").val(i.item.label);
+                    $.ajax({
+                        url: "/Search/GetAllArticle",
+                        type: "GET",
+                        dataType: "json",
+                        data: { searchtext: $("#search").val() },
+                        success: function(data) {
+                            for (var i = 0; i < data.length; i++) {
+                                $('#SearchData').empty();
+                                var user = '<table>';
+                                var keyval = 1;
+                                $.each(data,
+                                    function(key, val) {
+                                        user += '<tr><td> <i class="fa fa-file"> </i>  <a target="_blank" href="/Search/ArticleView?id=' + val.KnowledgebaseId + '">' + 'An Article From ' + val.CategoryName + 'Category </a></td></tr>';
+                                        user += '<tr><td> <i class="fa fa-arrow-right" style="font-size: 10px; color: crimson"> </i> ' + val.Subject + '</td></tr>';
+                                        user += '<tr><td> <br /></td></tr>';
+                                        keyval = keyval + 1;
+                                    });
+                                user += "</table>";
+                                $('#SearchData').append(user);
+                            }
+                        }
+                    });
+
+                    return false;
+                },
+                minLength: 1
+            });
+
+
+            $("#BtnSearch").click(function() {
+                $.ajax({
+                    url: "/Search/GetAllArticle",
+                    type: "GET",
+                    dataType: "json",
+                    data: { searchtext: $("#search").val() },
+                    success: function(data) {
+                        for (var i = 0; i < data.length; i++) {
+                            $('#SearchData').empty();
+                            var user = '<table>';
+                            var keyval = 1;
+                            $.each(data,
+                                function(key, val) {
+                                    user += '<tr><td> <i class="fa fa-file"> </i>  <a target="_blank" href="/Search/ArticleView?id=' + val.KnowledgebaseId + '">' + 'An Article From ' + val.CategoryName + 'Category </a></td></tr>';
+                                    user += '<tr><td> <i class="fa fa-arrow-right" style="font-size: 10px; color: crimson"> </i> ' + val.Subject + '</td></tr>';
+                                    user += '<tr><td> <br /></td></tr>';
+                                    keyval = keyval + 1;
+                                });
+                            user += "</table>";
+                            $('#SearchData').append(user);
+                        }
+                    }
+                });
+            });
+
+
+            $("#BtnClear").click(function() {
+                window.location.reload();
+            });
+
+        });
+    </script>
+}

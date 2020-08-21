@@ -1,0 +1,43 @@
+﻿
+.Registration {
+    background: #F7F7F7;
+}
+
+#CaptchaInputText {
+    border-radius: 3px;
+    -ms-box-shadow: 0 1px 0 #fff,0 -2px 5px rgba(0,0,0,.08) inset;
+    -o-box-shadow: 0 1px 0 #fff,0 -2px 5px rgba(0,0,0,.08) inset;
+    box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0,0,0,.08) inset;
+    border: 1px solid #c8c8c8;
+    color: #777;
+    margin: 0 0 7px;
+    width: 50%;
+    height: 35px;
+}
+.custom-input{
+    border-radius: 3px;
+    -ms-box-shadow: 0 1px 0 #fff,0 -2px 5px rgba(0,0,0,.08) inset;
+    -o-box-shadow: 0 1px 0 #fff,0 -2px 5px rgba(0,0,0,.08) inset;
+    box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0,0,0,.08) inset;
+    border: 1px solid #c8c8c8;
+    color: #777;
+    margin: 0 0 7px;
+    width: 100%;
+}
+
+.label {
+    /*display: inline-block;*/
+    max-width: 100%;
+    margin-bottom: 1px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.mandatory:after{ content: '*';color: Red;padding-left: 5px;}
+
+.Registration_wrapper {
+    right: 0;
+    margin: 2% auto 0;
+    /*max-width: 350px;*/
+    position: relative;
+}

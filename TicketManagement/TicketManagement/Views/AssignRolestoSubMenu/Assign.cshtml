@@ -1,0 +1,111 @@
+﻿@model TicketManagement.ViewModels.AssignRoleViewModelSubMenu
+
+
+
+
+
+<div class="col-md-6 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Assign Roles to SubMenu</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+
+            @if (TempData["MessageAssigned"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageAssigned"]
+                </div>
+            }
+
+            @if (TempData["AlreadyAssignedMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["AlreadyAssignedMessage"]
+                </div>
+            }
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(m => m.RoleId, new SelectList(Model.RolesList, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MenuId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(m => m.MenuId, new SelectList(Model.Menulist, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MenuId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">SubMenu</label>
+                    <div style="max-height: 300px;overflow: auto;" id="checkboxContainer"></div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-round btn-success" onclick="FormSubmit()" type="button"><i class="fa fa-check-circle"></i> Assign</button>
+                    <a href="/AssignRolestoSubMenu/Assign" class="btn btn-round btn-primary"><i class="glyphicon glyphicon-repeat"></i> Clear</a>
+                </div>
+
+            }
+        </div>
+        <script src="~/Scripts/ValidationScript/assignrole.js"></script>
+
+
+
+    </div>
+</div>
+
+<script>
+    function FormSubmit() {
+        var menuChecked = [];
+        $(".checkboxes:checked").each(function () {
+            menuChecked.push(this.value);
+        });
+        if ($("#RoleId").val() == "") {
+            alert('Choose Role');
+        }
+        else if ($("#MenuId").val() == "") {
+            alert('Choose Menu');
+        }
+        else if (menuChecked.length == 0) {
+            alert('Choose SubMenu to Assign Role');
+        }
+        else {
+            var urlSource = '/AssignRolestoSubMenu/Assign';
+            $.ajax({
+                url: urlSource,
+                method: "POST",
+                data:
+                {
+                    "RoleId": $("#RoleId").val(),
+                    "MenuId": $("#MenuId").val(),
+                    "SelectedSubMenuId": menuChecked
+                },
+                success: function (data) {
+                    if (data.Error != "") {
+                        alert(data.Error);
+                    }
+
+                    if (data.Success != "") {
+                        alert(data.Success);
+                        window.location.reload();
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    }
+</script>

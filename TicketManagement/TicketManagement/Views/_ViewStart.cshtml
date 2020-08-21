@@ -1,0 +1,31 @@
+﻿@using TicketManagement.CommonData
+@{
+    if (!string.IsNullOrEmpty(Convert.ToString(Session["RoleName"])))
+    {
+        if (Convert.ToString(Session["RoleName"]) == Convert.ToString(StatusMain.Roles.Admin))
+        {
+            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+        }
+        else if (Convert.ToString(Session["RoleName"]) == Convert.ToString(StatusMain.Roles.SuperAdmin))
+        {
+            Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+        }
+        else if (Convert.ToString(Session["RoleName"]) == Convert.ToString(StatusMain.Roles.User))
+        {
+            Layout = "~/Views/Shared/_LayoutUser.cshtml";
+        }
+        else if (Convert.ToString(Session["RoleName"]) == Convert.ToString(StatusMain.Roles.Agent))
+        {
+            Layout = "~/Views/Shared/_LayoutAgent.cshtml";
+        }
+        else if (Convert.ToString(Session["RoleName"]) == Convert.ToString(StatusMain.Roles.AgentAdmin))
+        {
+            Layout = "~/Views/Shared/_LayoutAgentsAdmin.cshtml";
+        }
+        else if (Convert.ToString(Session["RoleName"]) == Convert.ToString(StatusMain.Roles.Hod))
+        {
+            Layout = "~/Views/Shared/_LayoutHOD.cshtml";
+        }
+    }
+
+}

@@ -1,0 +1,60 @@
+﻿@model TicketManagement.Models.Category
+<h3 class="page-header" style="color: #058"><i class="fa fa-wpforms" style="font-size: 24px; color: #50C878"> </i> Edit Category</h3>
+
+<div class="col-md-6 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2> Edit Category</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+
+            @using (Html.BeginForm("Edit", "Category"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.CategoryId)
+
+                if (TempData["EditCategorySuccessMessages"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible">
+                        <a href="/Category/Index" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Message!</strong> @TempData["EditCategorySuccessMessages"]
+                    </div>
+                }
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @maxlength = 20 } })
+                    @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @maxlength = 4 } })
+                    @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.CheckBoxFor(model => model.Status, new { @checked = "checked" })
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CategoryDescription, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CategoryDescription, new { htmlAttributes = new { @class = "form-control", @maxlength = 30 } })
+                        @Html.ValidationMessageFor(model => model.CategoryDescription, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-round btn-success" type="submit"><i class="fa fa-check-circle"></i> Submit</button>
+                        <a href="/Category/Index" class="btn btn-round btn-primary">Reset</a>
+                    </div>
+
+            }
+        </div>
+    </div>
+
+</div>
+<script src="~/Scripts/ValidationScript/category.validate.js"></script>

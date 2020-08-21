@@ -1,0 +1,84 @@
+﻿@model TicketManagement.ViewModels.CreateAgentViewModel
+
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Create Agent</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            @if (TempData["MessageCreateUsers"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageCreateUsers"]
+                </div>
+            }
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.EmailId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control", @maxlength = 50 })
+                    @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <br/>
+                    @Html.LabelFor(model => model.Gender, htmlAttributes: new {@class = "mandatory"})
+                    @Html.RadioButtonFor(model => model.Gender, "M") @Html.Label("", "Male")
+                    @Html.RadioButtonFor(model => model.Gender, "F") @Html.Label("", "Female")
+                    <br/>
+                    @Html.ValidationMessageFor(model => model.Gender, "", new {@class = "text-danger"})
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control", @maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @readonly = "readonly", @onfocus = "this.removeAttribute('readonly');", @maxlength = 20, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "mandatory" })
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", @maxlength = 30, @autocomplete = "off" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "mandatory" })
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", @autocomplete = "off" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label mandatory" })
+                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.ListofCategory, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <br/>
+                    <button class="btn btn-round btn btn-success" type="submit">Submit</button>
+                    <a href="/CreateAgent/Create" class="btn btn-round btn btn-primary"> Clear</a>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+

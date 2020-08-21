@@ -1,0 +1,34 @@
+﻿
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Manage Cache</h2>
+            <div class="clearfix"></div>
+            <div class="x_content">
+                <br />
+                
+                @if (TempData["MessageCache"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Message!</strong> @TempData["MessageCache"]
+                    </div>
+                }
+
+                @using (Html.BeginForm())
+            {
+                    <div class="form-group">
+                        <label>Total Count :-</label>
+                        @ViewBag.TotalCount
+
+                    </div>
+                    <div class="form-group">
+                        <label>Refresh IIS Cache :- </label>
+
+                        <button class="btn btn-round btn btn-success" name="submit" value="RemoveallKeys" type="submit">Submit</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

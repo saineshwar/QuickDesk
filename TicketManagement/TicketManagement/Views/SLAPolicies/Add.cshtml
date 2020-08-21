@@ -1,0 +1,267 @@
+﻿@model TicketManagement.ViewModels.SlaPoliciesViewModel
+
+<link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/metro/lightgray/jtable.min.css" rel="stylesheet" />
+<!--Adding jquery Plugin-->
+<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+<!--Adding jTable Plugin-->
+<script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+<!-- Import CSS file for validation engine (in Head section of HTML) -->
+<link href="~/Scripts/validationEngine/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Create SLA Policies</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            @if (TempData["MessagePolicies"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessagePolicies"]
+                </div>
+            }
+
+            @if (TempData["MessageErrorPolicies"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageErrorPolicies"]
+                </div>
+            }
+            
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        @Html.LabelFor(model => model.PriorityId, htmlAttributes: new { @class = "mandatory" })
+                        @Html.DropDownListFor(model => model.PriorityId, new SelectList(Model.ListofPriority, "Value", "Text"), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PriorityId, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <label>First response time</label>
+
+                        @Html.TextBoxFor(model => model.FirstResponseDay, new { @class = "form-control", @placeholder = "Day"})
+                        @Html.ValidationMessageFor(model => model.FirstResponseDay, "", new { @class = "text-danger" })
+
+                        @Html.TextBoxFor(model => model.FirstResponseHour, new { @class = "form-control",  @placeholder = "Hours" })
+                        @Html.ValidationMessageFor(model => model.FirstResponseHour, "", new { @class = "text-danger" })
+
+                        @Html.TextBoxFor(model => model.FirstResponseMins, new { @class = "form-control",  @placeholder = "Mins" })
+                        @Html.ValidationMessageFor(model => model.FirstResponseMins, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <label>Every response time</label>
+
+                        @Html.TextBoxFor(model => model.EveryResponseDay, new { @class = "form-control",  @placeholder = "Day" })
+                        @Html.ValidationMessageFor(model => model.EveryResponseDay, "", new { @class = "text-danger" })
+
+                        @Html.TextBoxFor(model => model.EveryResponseHour, new { @class = "form-control",  @placeholder = "Hours" })
+                        @Html.ValidationMessageFor(model => model.EveryResponseHour, "", new { @class = "text-danger" })
+
+                        @Html.TextBoxFor(model => model.EveryResponseMins, new { @class = "form-control",  @placeholder = "Mins" })
+                        @Html.ValidationMessageFor(model => model.EveryResponseMins, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <label>Resolution time</label>
+
+                        @Html.TextBoxFor(model => model.ResolutionResponseDay, new { @class = "form-control",  @placeholder = "Day" })
+                        @Html.ValidationMessageFor(model => model.ResolutionResponseDay, "", new { @class = "text-danger" })
+
+                        @Html.TextBoxFor(model => model.ResolutionResponseHour, new { @class = "form-control",  @placeholder = "Hours" })
+                        @Html.ValidationMessageFor(model => model.ResolutionResponseHour, "", new { @class = "text-danger" })
+
+                        @Html.TextBoxFor(model => model.ResolutionResponseMins, new { @class = "form-control",  @placeholder = "Mins" })
+                        @Html.ValidationMessageFor(model => model.ResolutionResponseMins, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <label>Escalation time</label>
+
+                        @Html.TextBoxFor(model => model.EscalationDay, new { @class = "form-control",  @placeholder = "Day" })
+                        @Html.ValidationMessageFor(model => model.EscalationDay, "", new { @class = "text-danger" })
+
+                        @Html.TextBoxFor(model => model.EscalationHour, new { @class = "form-control",  @placeholder = "Hours" })
+                        @Html.ValidationMessageFor(model => model.EscalationHour, "", new { @class = "text-danger" })
+
+                        @Html.TextBoxFor(model => model.EscalationMins, new { @class = "form-control",  @placeholder = "Mins" })
+                        @Html.ValidationMessageFor(model => model.EscalationMins, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+                    <hr />
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+
+                        <button class="btn btn-round btn btn-success" type="submit">Submit</button>
+                        <a href="/SLAPolicies/Add" class="btn btn-round btn btn-primary"> Clear</a>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <hr />
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="SlaPoliciesContainer"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#SlaPoliciesContainer').jtable({
+            title: 'All SLA Policies',
+            paging: false,
+            pageSize: 10,
+            sorting: true,
+            pageSizeChangeArea: false,
+            actions:
+            {
+                listAction: '/SLAPolicies/AllSlaPoliciesList'
+            },
+            fields: {
+                SlaPoliciesId: {
+                    key: true,
+                    list: false
+                },
+                PriorityName: {
+                    title: 'Priority',
+                    sorting: false,
+                    width: '5%'
+                },
+                FirstResponseDay: {
+                    title: 'First-Day',
+                    sorting: false,
+                    width: '5%'
+                },
+                FirstResponseHour: {
+                    title: 'First-Hour',
+                    sorting: false,
+                    width: '5%'
+                },
+                FirstResponseMins: {
+                    title: 'First-Mins',
+                    sorting: false,
+                    width: '5%'
+                },
+                EveryResponseDay: {
+                    title: 'Eve-Day',
+                    sorting: false,
+                    width: '5%'
+                },
+                EveryResponseHour: {
+                    title: 'Eve-Hour',
+                    sorting: false,
+                    width: '5%'
+                },
+                EveryResponseMins: {
+                    title: 'Eve-Mins',
+                    sorting: false,
+                    width: '5%'
+                },
+                ResolutionResponseDay: {
+                    title: 'RES-Day',
+                    sorting: false,
+                    width: '5%'
+                },
+                ResolutionResponseHour: {
+                    title: 'RES-Hour',
+                    sorting: false,
+                    width: '5%'
+                },
+                ResolutionResponseMins: {
+                    title: 'RES-Mins',
+                    sorting: false,
+                    width: '5%'
+                },
+                EscalationDay: {
+                    title: 'Esc-Day',
+                    sorting: false,
+                    width: '5%'
+                },
+                EscalationHour: {
+                    title: 'Esc-Hour',
+                    sorting: false,
+                    width: '5%'
+                },
+                EscalationMins: {
+                    title: 'Esc-Mins',
+                    sorting: false,
+                    width: '5%'
+                },
+                Delete: {
+                    title: 'Action',
+                    sorting: false,
+                    display: function (data) {
+                        return '<button id="BtnSearch" onclick=DeleteSlaPolicies(' +
+                            data.record.SlaPoliciesId +
+                            ') class="btn btn-danger btn-xs" type="button"><i class="glyphicon glyphicon-trash"></i> Delete</button>';
+                    }
+                }
+            }
+
+        });
+
+        //Re-load records when user click 'load records' button.
+        $('#BtnSearch').click(function (e) {
+            e.preventDefault();
+            $('#SlaPoliciesContainer').jtable('load', {
+                Name: $('#Name').val()
+            });
+        });
+
+        $('#BtnClear').click(function (e) {
+
+            window.location.reload();
+        });
+
+        //Load Customer data from server
+        $('#SlaPoliciesContainer').jtable('load');
+    });
+
+    function DeleteSlaPolicies(value) {
+        $.ajax({
+            type: "POST", //HTTP POST Method
+            url: "/SLAPolicies/DeleteSlaPolicies",
+            data: { slaPoliciesId: value },
+            success: function (data) {
+                if (data.Result == "NO") {
+                    alert('Cannot Delete BusinessHours Add ANother BusinessHours to Delete this one!');
+                    location.reload();
+                }
+                else if (data.Result == "OK") {
+                    alert('Default Connection is Updated Successfully');
+                    location.reload();
+                }
+                else if (data.Result == "ERROR") {
+                    alert('Default Connection is Updated Successfully');
+                    location.reload();
+                }
+                else {
+                    alert('Error Occured while Setting Default Connection');
+                }
+
+            }
+        });
+    }
+
+
+</script>

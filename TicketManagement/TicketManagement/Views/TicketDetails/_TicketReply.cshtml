@@ -1,0 +1,41 @@
+﻿@model TicketManagement.ViewModels.TicketReplyModel
+<div class="row">
+    <div class="col-lg-12">
+        @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "mandatory" })
+        @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @maxlength = 2000, @onkeypress = "return onlyspecchar(event);" })
+        @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.TicketId)
+        @Html.HiddenFor(model => model.TrackingId)
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        @Html.Label("Attachments")
+        <input type="file" id="fileupload_1" onchange="ValidateFile(this);" class="form-control" name="fileupload_1" />
+        <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+        <div class="text-danger" name="_val1" id="_val1">
+        </div>
+    </div>
+    <div class="col-lg-4">
+        @Html.Label("Attachments")
+        <input type="file" id="fileupload_2" onchange="ValidateFile(this);" class="form-control" name="fileupload_2" />
+        <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+        <div class="text-danger" name="_val2" id="_val2">
+        </div>
+    </div>
+    <div class="col-lg-4">
+        @Html.Label("Attachments")
+        <input type="file" id="fileupload_3" onchange="ValidateFile(this);" class="form-control" name="fileupload_3" />
+        <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+        <div class="text-danger" name="_val3" id="_val3">
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-8">
+        <button class="btn btn-round btn-primary" name="Replied" value="Reply" onclick="return confirm('Are you sure you want to Perform this Action ...?');" type="submit">
+            <i class="fa fa-reply" aria-hidden="true"></i> Submit Reply
+        </button>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+﻿@model TicketManagement.ViewModels.EditCategoriesVM
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Edit Menu Category</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            @using (Html.BeginForm("Edit", "MenuCategory", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.MenuCategoryId)
+                if (TempData["CategoryUpdateMessages"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Message!</strong> @TempData["CategoryUpdateMessages"]
+                    </div>
+                }
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.ListofRoles, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.MenuCategoryName, htmlAttributes: new { @class = "mandatory" })
+                    @Html.EditorFor(model => model.MenuCategoryName, new { htmlAttributes = new { @class = "form-control", @maxlength = 20 } })
+                    @Html.ValidationMessageFor(model => model.MenuCategoryName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "mandatory" })
+                    <br />
+                    @Html.CheckBoxFor(model => model.Status, new { @checked = "checked" })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-4 col-sm-4 col-xs-12" style="margin-top:10px;">
+                    <button class="btn btn-round btn-success" type="submit">Submit</button>
+                    <a href="/MenuCategory/Create" class="btn btn-round btn-primary">Create</a>
+                    <a href="/MenuCategory/Index" class="btn btn-round btn-primary">Back to List</a>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>

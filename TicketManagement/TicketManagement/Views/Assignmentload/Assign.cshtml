@@ -1,0 +1,45 @@
+﻿
+@model TicketManagement.ViewModels.DefaultTicketSettingsViewModel
+
+<div class="col-md-6 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2> Set DefaultTicket Count</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.DefaultTicketId)
+                if (TempData["TicketSettingsMessages"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Message!</strong> @TempData["TicketSettingsMessages"]
+                    </div>
+                }
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TicketsCount, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.TicketsCount, new { @class = "form-control", @maxlength = 2 })
+                    @Html.ValidationMessageFor(model => model.TicketsCount, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AutoTicketsCloseHour, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.AutoTicketsCloseHour, new { @class = "form-control", @maxlength = 2 })
+                    @Html.ValidationMessageFor(model => model.AutoTicketsCloseHour, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <br />
+                    <button class="btn btn-round btn btn-success" type="submit"> Submit</button>
+                    <a href="/CreateUsers/Create" class="btn btn-round btn btn-primary"><i class="glyphicon glyphicon-repeat"></i> Clear</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

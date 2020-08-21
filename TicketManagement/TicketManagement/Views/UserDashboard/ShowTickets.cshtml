@@ -1,0 +1,60 @@
+﻿<meta name="viewport" content="width=device-width" />
+<title>Index</title>
+<link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/metro/lightgray/jtable.min.css" rel="stylesheet" />
+<!--Adding jquery Plugin-->
+<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+<!--Adding jTable Plugin-->
+<script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+<!-- Import CSS file for validation engine (in Head section of HTML) -->
+<link href="~/Scripts/validationEngine/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/ValidationScript/GridSearchUser.in.js"></script>
+
+
+
+
+
+
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-ticket" style="font-size: 24px; color: #50C878"> </i> My Tickets</h2>
+
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+            <br />
+
+            <form id="form">
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <label>Search</label>
+                    <input id="search" class="form-control" type="text" />
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <label>SearchIn</label>
+                    <select id="searchin" required name="searchin" class="form-control"> </select>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12" style="margin-top: 25px">
+                    <button type="submit" class="btn btn-round btn-success" id="BtnSearch">Search</button>
+                    <button type="button" class="btn btn-round btn-primary" id="BtnClear">Clear</button>
+                </div>
+            </form>
+            <br />
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div id="GridTableContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).on('paste', '#search', function (e) {
+        window.setTimeout(function () {
+            var withoutSpaces = $("#search").val();
+            withoutSpaces = withoutSpaces.replace(/\s+/g, '');
+            $("#search").val(withoutSpaces);
+        }, 1);
+    });
+</script>

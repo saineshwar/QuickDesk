@@ -1,0 +1,165 @@
+﻿@using TicketManagement.CommonData
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-store" />
+    <meta http-equiv="cache-control" content="private" />
+    <meta http-equiv="cache-control" content="must-revalidate" />
+    <meta http-equiv="cache-control" content="post-check=0" />
+    <meta http-equiv="cache-control" content="pre-check=0" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <noscript>
+        <meta http-equiv="Refresh" content="0;URL=http://ticketwala.azurewebsites.net/Error/Error" />
+    </noscript>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+
+    <link rel="icon" href="/favicon.ico" type="image/ico" />
+
+    <title>Ticket's</title>
+    @Styles.Render("~/Template/commoncss")
+
+
+    <style type="text/css">
+        #page-wrapper {
+            margin: 0 250px 0 250px;
+        }
+
+        .sidebar-right {
+            z-index: 1;
+            position: absolute;
+            width: 250px;
+            right: 0px;
+            padding: 10px;
+        }
+
+        .modal-sm {
+            width: 400px; /* New width for small modal */
+        }
+    </style>
+</head>
+
+<body class="nav-sm">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="/HODDashboard/Dashboard" class="site_title"><i class="fa fa-ticket"></i> <span>Ticket's !</span></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+
+                    <br />
+                    @if (Session["Username"] != null)
+                    {
+                        @Html.Action("ShowMenus", "HODDashboard")
+                    }
+                 
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    @Session["Username"]
+                                    <span class="fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li><a href="/HOD/ProfileInformation"> Profile</a></li>
+                                    <li><a href="/HOD/Changepassword"> Change password</a></li>
+                                    <li><a href="/Login/Logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                </ul>
+                            </li>
+
+                            <li style="padding-top:18px">
+                                Session timeout in  <i style="font-size: 10px; margin-left: 2px; margin-right: 2px;" class="fa fa-hourglass fa-spin"></i> : <b style="color: orangered; min-width: 30px" id="timer"></b>
+                            </li> 
+                        </ul>
+                    </nav>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+
+                @Scripts.Render("~/bundles/commonScripts")
+                @RenderBody()
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+
+
+
+
+            <footer>
+                <div class="pull-right">
+                    Ticket's
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-newspaper-o"></i> Profile</h4>
+            </div>
+            <div id="divuserprofile" style="height:240px;" class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '/Hod/CheckIsProfileImageExists',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.result === true) {
+                    $("#myprofile_pic").attr('src', data.base64string);
+                }
+            },
+            error: function (xhr, status, p3, p4) {
+                var err = "Error " + " " + status + " " + p3 + " " + p4;
+                if (xhr.responseText && xhr.responseText[0] == "{")
+                    err = JSON.parse(xhr.responseText).Message;
+                console.log(err);
+            }
+        });
+    });
+</script>

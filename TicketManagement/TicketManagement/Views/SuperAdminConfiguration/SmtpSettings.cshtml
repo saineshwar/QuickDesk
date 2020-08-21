@@ -1,0 +1,83 @@
+﻿@model TicketManagement.ViewModels.SmtpEmailSettingsViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+
+
+
+<div class="col-md-6 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2> SMTP Server Settings</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            
+
+            @if (TempData["MessageSmtp"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageSmtp"]
+                </div>
+            }
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Host, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Host, new { @class = "form-control", @maxlength = 50, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.Host, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Port, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Port, new { @class = "form-control", @maxlength = 6 })
+                    @Html.ValidationMessageFor(model => model.Port, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Timeout, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Timeout, new { @class = "form-control", @maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.Timeout, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.SslProtocol, htmlAttributes: new { @class = "mandatory" })
+                    @Html.RadioButtonFor(model => model.SslProtocol, "Y") @Html.Label("", "Yes")
+                    @Html.RadioButtonFor(model => model.SslProtocol, "N") @Html.Label("", "No")
+                    <br />
+                    @Html.ValidationMessageFor(model => model.SslProtocol, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TlSProtocol, htmlAttributes: new { @class = "mandatory" })
+
+                    @Html.RadioButtonFor(model => model.TlSProtocol, "Y") @Html.Label("", "Yes")
+                    @Html.RadioButtonFor(model => model.TlSProtocol, "N") @Html.Label("", "No")
+                    @Html.ValidationMessageFor(model => model.TlSProtocol, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @maxlength = 50, @onkeypress = "return onlyspecchar(event);", @readonly = "readonly", @onfocus = "this.removeAttribute('readonly');" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @maxlength = 50, @onkeypress = "return onlyspecchar(event);", @readonly = "readonly", @onfocus = "this.removeAttribute('readonly');" })
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "mandatory" })
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", @maxlength = 30, @autocomplete = "off" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-round btn-success" type="submit"><i class="fa fa-check-circle"></i> Save</button>
+                    <a href="/SuperAdminConfiguration/AllSmtpSettings" class="btn btn-round btn-primary">Cancel</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

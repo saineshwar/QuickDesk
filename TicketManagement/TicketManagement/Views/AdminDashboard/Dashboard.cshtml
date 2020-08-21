@@ -1,0 +1,198 @@
+﻿@using TicketManagement.ViewModels
+@model DashboardCountViewModel
+
+<div class="">
+    <div class="row top_tiles">
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=1">
+                <div class="tile-stats">
+                    <div class="count">@Model.NewTicketCount</div>
+                    <h3>Open</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=2">
+                <div class="tile-stats">
+                    <div class="count">@Model.ResolvedTicketCount</div>
+                    <h3>Resolved</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=3">
+                <div class="tile-stats">
+                    <div class="count">@Model.InProgressTicketCount</div>
+                    <h3>InProgress</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=6">
+                <div class="tile-stats">
+                    <div class="count">@Model.RepiledTicketCount</div>
+                    <h3>Replied </h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=7">
+                <div class="tile-stats">
+                    <div class="count">@Model.DeletedTicketCount</div>
+                    <h3>Deleted</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=4">
+                <div class="tile-stats">
+                    <div class="count">@Model.OnHoldTicketCount</div>
+                    <h3>OnHold</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=5">
+                <div class="tile-stats">
+                    <div class="count">@Model.RecentlyEditedTicketCount</div>
+                    <h3>Edited</h3>
+                </div>
+            </a>
+        </div>
+    
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=8">
+                <div class="tile-stats">
+                    <div class="count">@Model.OverdueTicketCount</div>
+                    <h3>Overdue</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=9">
+                <div class="tile-stats">
+                    <div class="count">@Model.EscalatedTicketCount</div>
+                    <h3>Escalation</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AdminDashboard/ShowTickets?statusId=10">
+                <div class="tile-stats">
+                    <div class="count">@Model.ClosedTicketCount</div>
+                    <h3>Closed</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-8">
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Ticket's Stats
+
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="row">
+
+                    <!-- /.col-lg-4 (nested) -->
+                    <div class="col-lg-12">
+                        <div id="morris-bar-chart"></div>
+                    </div>
+                    <!-- /.col-lg-8 (nested) -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+
+    </div>
+    <!-- /.col-lg-8 -->
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Ticket's Stats
+            </div>
+            <div class="panel-body">
+                <div id="morris-donut-chart"></div>
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+    <!-- /.col-lg-4 -->
+</div>
+
+@section customscripts{
+    
+    <script src="/Template/vendors/raphael/raphael.min.js"></script>
+    <script src="/Template/vendors/morris.js/morris.min.js"></script>
+    <!-- /.row -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var dataresponse = "";
+
+            $.ajax({
+                type: "POST",
+                url: '/AdminDashboard/ShowBarCharts',
+                contentType: "application/json; charset=utf-8",
+                success: function(result) {
+                    dataresponse = result;
+                      if (dataresponse != null && dataresponse !="") {
+                        Morris.Bar({
+                            element: 'morris-bar-chart',
+                            data: dataresponse,
+                            xkey: 'y',
+                            ykeys: ['a', 'b'],
+                            lineColors: ['#26B99A', '#34495E'],
+                            labels: ['New Ticket', 'Resolved'],
+                            hideHover: 'auto',
+                            resize: true
+                        });
+                    }
+                },
+                error: function(xhr, status, p3, p4) {
+                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                    if (xhr.responseText && xhr.responseText[0] == "{")
+                        err = JSON.parse(xhr.responseText).Message;
+                    console.log(err);
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: '/AdminDashboard/ShowDonutCharts',
+                contentType: "application/json; charset=utf-8",
+                success: function(result) {
+                    dataresponse = result;
+                      if (dataresponse != null && dataresponse !="") {
+                        Morris.Donut({
+                            element: 'morris-donut-chart',
+                            colors: ['#3498DB', '#1ABB9C', '#9B59B6', '#9CC2CB', '#E74C3C'],
+                            data: dataresponse,
+                            resize: true
+                        });
+                    }
+                },
+                error: function(xhr, status, p3, p4) {
+                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                    if (xhr.responseText && xhr.responseText[0] == "{")
+                        err = JSON.parse(xhr.responseText).Message;
+                    console.log(err);
+                }
+            });
+
+
+        });
+
+    </script>
+
+    }

@@ -1,0 +1,81 @@
+﻿@using TicketManagement.Helpers
+@model List<TicketManagement.ViewModels.MenuCategoryCacheViewModel>
+
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        <ul class="nav side-menu">
+
+            @if (Model != null)
+            {
+                foreach (var category in Model)
+                {
+                    <li>
+                        <a href="javascript:void(0);">
+                            <i class="fa fa-edit"></i> @category.MenuCategoryName
+                        </a>
+                        @if (DisplayMenu.ShowMenu(Convert.ToInt32(Session["RoleId"]), category.MenuCategoryId) != null)
+                        {
+                            <ul class="nav child_menu">
+                                @foreach (var tempService in DisplayMenu.ShowMenu(Convert.ToInt32(Session["RoleId"]), category.MenuCategoryId))
+                                {
+                                    if (!string.IsNullOrEmpty(tempService.Areas))
+                                    {
+                                        <li>
+                                            <a oncontextmenu="return false;" onclick="SubMenuClick('/@tempService.Areas/@tempService.ControllerName/@tempService.ActionMethod')" href="javascript:void(0);">@tempService.MenuName</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a oncontextmenu="return false;" onclick="SubMenuClick('/@tempService.ControllerName/@tempService.ActionMethod')" href="javascript:void(0);">@tempService.MenuName</a>
+                                        </li>
+                                    }
+
+
+
+                                    if (DisplayMenu.ShowSubMenuCount(Convert.ToInt32(Session["RoleId"]), category.MenuCategoryId, tempService.MenuId) != null && DisplayMenu.ShowSubMenuCount(Convert.ToInt32(Session["RoleId"]), category.MenuCategoryId, tempService.MenuId) > 0)
+                                    {
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                @tempService.MenuName<span class="fa fa-chevron-down"></span>
+                                            </a>
+                                            <ul class="nav child_menu">
+                                                @foreach (var tempSubservices in DisplayMenu.ShowSubMenu(Convert.ToInt32(Session["RoleId"]), category.MenuCategoryId, tempService.MenuId))
+                                                {
+                                                    if (!string.IsNullOrEmpty(tempSubservices.Areas))
+                                                    {
+                                                        <li>
+                                                            <a oncontextmenu="return false;" onclick="SubMenuClick('/@tempSubservices.Areas/@tempSubservices.ControllerName/@tempSubservices.ActionMethod')" href="javascript:void(0);">@tempSubservices.SubMenuName</a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <a oncontextmenu="return false;" onclick="SubMenuClick('/@tempSubservices.ControllerName/@tempSubservices.ActionMethod')" href="javascript:void(0);">@tempSubservices.SubMenuName</a>
+                                                        </li>
+                                                    }
+
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            }
+
+        </ul>
+    </div>
+
+    <script>
+        function SubMenuClick(link) {
+            return window.location.href = link;
+        }
+        function UserClick() {
+            alert("Please try to click on link do not Press Mouse Middle Click");
+        }
+    </script>
+</div>

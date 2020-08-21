@@ -1,0 +1,59 @@
+﻿@model TicketManagement.ViewModels.CategoryConfigrationViewModel
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Assign Category and Business Hours</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            @if (TempData["MessageCategoryConfigration"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageCategoryConfigration"]
+                </div>
+            }
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(x => x.CategoryId, new SelectList(Model.ListofCategory, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.AgentAdminUserId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(x => x.AgentAdminUserId, new SelectList(Model.ListofAdmin, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AgentAdminUserId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.HodUserId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(x => x.HodUserId, new SelectList(Model.ListofHod, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.HodUserId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.BusinessHoursId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(x => x.BusinessHoursId, new SelectList(Model.ListofBusinessHours, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BusinessHoursId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.CheckBoxFor(model => model.Status, new { @checked = "checked" })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br />
+                    <button class="btn btn-round btn btn-success" type="submit">Submit</button>
+                    <a href="/Category/Assign" class="btn btn-round btn btn-primary"> Clear</a>
+                    <a href="/Category/AllCategoryConfigration" class="btn btn-round btn btn-primary"> All Category Configration</a>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>

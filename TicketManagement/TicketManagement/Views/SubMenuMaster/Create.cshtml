@@ -1,0 +1,227 @@
+﻿@model TicketManagement.ViewModels.SubMenuMasterCreate
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Add SubMenu</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+
+
+            @using (Html.BeginForm("Create", "SubMenuMaster"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.RoleID, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(m => m.RoleID, new SelectList(Model.ListofRoles, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.MenuCategoryId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(m => m.MenuCategoryId, new SelectList(Model.ListofMenuCategory, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MenuCategoryId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.MenuId, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.MenuId, new SelectList(Model.MenuList, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MenuId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.ControllerName, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.ControllerName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ControllerName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.ActionMethod, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.ActionMethod, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ActionMethod, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.SubMenuName, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.SubMenuName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SubMenuName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                    @Html.CheckBoxFor(model => model.Status, new { @checked = "checked" })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-4 col-sm-4 col-xs-12" style="margin-top: 10px;">
+                    <button class="btn btn-round btn btn-success" type="submit">Submit</button>
+                    <a href="/SubMenuMaster/Create" class="btn btn-round btn btn-primary"> Reset</a>
+                    <a href="/SubMenuMaster/Index" class="btn btn-round btn btn-primary"> Back to List</a>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+@section customscripts{
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#RoleID").change(function () {
+                var requestObject =
+                {
+                    roleId: $("#RoleID").val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/MenuMasters/GetCategory",
+                    data: JSON.stringify(requestObject),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data, textStatus, xhr) {
+                        $("#MenuCategoryId").empty();
+                        $.each(data,
+                            function (i) {
+                                var optionhtml = '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                                $("#MenuCategoryId").append(optionhtml);
+                            });
+                    },
+                    error: function (xhr, status, err) {
+                        if (xhr.status == 401) {
+                            alert('Error');
+                            window.location.href = "/Portal/Logout";
+                        }
+
+                        if (xhr.status == 500) {
+                            alert('Error');
+                            window.location.href = "/Portal/Logout";
+                        }
+                    }
+                });
+            });
+
+            $("#MenuCategoryId").change(function () {
+                var requestObject =
+                {
+                    roleId: $("#RoleID").val(),
+                    CategoryID: $("#MenuCategoryId").val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/SubMenuMaster/GetMenus",
+                    data: JSON.stringify(requestObject),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data, textStatus, xhr) {
+                        $("#MenuId").empty();
+                        $.each(data,
+                            function (i) {
+                                var optionhtml = '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                                $("#MenuId").append(optionhtml);
+                            });
+                    },
+                    error: function (xhr, status, err) {
+                        if (xhr.status == 401) {
+                            alert('Error');
+                            window.location.href = "/Portal/Logout";
+                        }
+
+                        if (xhr.status == 500) {
+                            alert('Error');
+                            window.location.href = "/Portal/Logout";
+                        }
+                    }
+                });
+            });
+        });
+
+        if ('@Model.RoleID' != '' && '@Model.RoleID' != '0') {
+
+            var requestObject =
+            {
+                roleId: '@Model.RoleID'
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/MenuMasters/GetCategory",
+                data: JSON.stringify(requestObject),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data, textStatus, xhr) {
+                    $("#MenuCategoryId").empty();
+
+                    $.each(data,
+                        function (i) {
+                            var optionhtml = '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                            $("#MenuCategoryId").append(optionhtml);
+                        });
+
+                    if ('@Model.MenuCategoryId' != '' && '@Model.MenuCategoryId' != '0') {
+                        $("#MenuCategoryId").val('@Model.MenuCategoryId');
+                    }
+                },
+                error: function (xhr, status, err) {
+                    if (xhr.status == 401) {
+                        alert('Error');
+                        window.location.href = "/Portal/Logout";
+                    }
+
+                    if (xhr.status == 500) {
+                        alert('Error');
+                        window.location.href = "/Portal/Logout";
+                    }
+                }
+            });
+        }
+
+        if ('@Model.RoleID' != '' && '@Model.RoleID' != '0' && '@Model.MenuCategoryId' != '' && '@Model.MenuCategoryId' != '0') {
+
+            var requestObject =
+            {
+                roleId: '@Model.RoleID',
+                CategoryID: '@Model.MenuCategoryId'
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/SubMenuMaster/GetMenus",
+                data: JSON.stringify(requestObject),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data, textStatus, xhr) {
+                    $("#MenuId").empty();
+
+                    $.each(data,
+                        function (i) {
+                            var optionhtml = '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                            $("#MenuId").append(optionhtml);
+                        });
+
+                    if ('@Model.MenuId' != '' && '@Model.MenuId' != '0') {
+                        $("#MenuId").val('@Model.MenuId');
+                    }
+                },
+                error: function (xhr, status, err) {
+                    if (xhr.status == 401) {
+                        alert('Error');
+                        window.location.href = "/Portal/Logout";
+                    }
+
+                    if (xhr.status == 500) {
+                        alert('Error');
+                        window.location.href = "/Portal/Logout";
+                    }
+                }
+            });
+        }
+
+
+    </script>
+}

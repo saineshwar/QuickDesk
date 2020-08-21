@@ -1,0 +1,222 @@
+﻿@using TicketManagement.ViewModels
+@model DashboardCountViewModel
+
+
+<div class="">
+    <div class="row top_tiles">
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=1">
+                <div class="tile-stats">
+                    <div class="count">@Model.NewTicketCount</div>
+                    <h3>New</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=2">
+                <div class="tile-stats">
+                    <div class="count">@Model.ResolvedTicketCount</div>
+                    <h3>Resolved</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=3">
+                <div class="tile-stats">
+                    <div class="count">@Model.InProgressTicketCount</div>
+                    <h3>InProgress</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=6">
+                <div class="tile-stats">
+                    <div class="count">@Model.RepiledTicketCount</div>
+                    <h3>Replied</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=7">
+                <div class="tile-stats">
+                    <div class="count">@Model.DeletedTicketCount</div>
+                    <h3>Deleted</h3>
+                </div>
+            </a>
+        </div>
+
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=5">
+                <div class="tile-stats">
+                    <div class="count">@Model.RecentlyEditedTicketCount</div>
+                    <h3>Edited</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=4">
+                <div class="tile-stats">
+                    <div class="count">@Model.OnHoldTicketCount</div>
+                    <h3>OnHold</h3>
+                </div>
+            </a>
+        </div>
+       
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=8">
+                <div class="tile-stats">
+                    <div class="count">@Model.OverdueTicketCount</div>
+                    <h3>Overdue</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=9">
+                <div class="tile-stats">
+                    <div class="count">@Model.EscalatedTicketCount</div>
+                    <h3>Escalation</h3>
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <a href="/AgentDashboard/ShowTickets?statusId=10">
+                <div class="tile-stats">
+                    <div class="count">@Model.ClosedTicketCount</div>
+                    <h3>Closed</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-8 col-sm-8 col-xs-12">
+        <div class="x_panel tile">
+            <div class="x_title">
+                <h2>App Versions</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="javascript:void(0);">Settings 1</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div id="morris-bar-chart"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="x_panel tile">
+            <div class="x_title">
+                <h2>App Versions</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="javascript:void(0);">Settings 1</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div id="morris-donut-chart"></div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+@section customscripts{
+    
+    <script src="/Template/vendors/raphael/raphael.min.js"></script>
+    <script src="/Template/vendors/morris.js/morris.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+
+            var dataresponse = "";
+
+            $.ajax({
+                type: "POST",
+                url: '/AgentDashboard/ShowBarCharts',
+                contentType: "application/json; charset=utf-8",
+                success: function(result) {
+                    dataresponse = result;
+                    if (dataresponse != null && dataresponse !="") {
+                        Morris.Bar({
+                            element: 'morris-bar-chart',
+                            data: dataresponse,
+                            xkey: 'y',
+                            ykeys: ['a', 'b'],
+                            labels: ['New Ticket', 'Resolved'],
+                            hideHover: 'auto',
+                            resize: true
+                        });
+                    }
+                },
+                error: function(xhr, status, p3, p4) {
+                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                    if (xhr.responseText && xhr.responseText[0] == "{")
+                        err = JSON.parse(xhr.responseText).Message;
+                    console.log(err);
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: '/AgentDashboard/ShowDonutCharts',
+                contentType: "application/json; charset=utf-8",
+                success: function(result) {
+                    dataresponse = result;
+                    if (dataresponse != null && dataresponse != "") {
+                        Morris.Donut({
+                            element: 'morris-donut-chart',
+                            data: dataresponse,
+                            colors: ['#3498DB', '#1ABB9C', '#9B59B6', '#9CC2CB', '#E74C3C'],
+                            resize: true
+                        });
+                    }
+                },
+                error: function(xhr, status, p3, p4) {
+                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                    if (xhr.responseText && xhr.responseText[0] == "{")
+                        err = JSON.parse(xhr.responseText).Message;
+                    console.log(err);
+                }
+            });
+
+
+        });
+
+    </script>
+
+
+    }
+

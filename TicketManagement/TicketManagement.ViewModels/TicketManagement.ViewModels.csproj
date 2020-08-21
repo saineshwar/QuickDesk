@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7E151F2C-2D51-4ED8-91ED-CCE7EE810B73}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TicketManagement.ViewModels</RootNamespace>
+    <AssemblyName>TicketManagement.ViewModels</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TicketManagement\bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgentAdminReportViewModel.cs" />
+    <Compile Include="AssignRoleViewModel.cs" />
+    <Compile Include="AssignViewUserRoleModel.cs" />
+    <Compile Include="BusinessHoursModel.cs" />
+    <Compile Include="BusinessHoursViewModel.cs" />
+    <Compile Include="CategoryConfigrationViewModel.cs" />
+    <Compile Include="CategoryExportReportViewModel.cs" />
+    <Compile Include="MenuCategoryViewModel.cs" />
+    <Compile Include="CategoryViewModel.cs" />
+    <Compile Include="ChangeCategoryRequestModel.cs" />
+    <Compile Include="ChangePasswordFirstLoginModel.cs" />
+    <Compile Include="ChangePriorityRequestModel.cs" />
+    <Compile Include="ChangeStatusRequestModel.cs" />
+    <Compile Include="ChartViewModel.cs" />
+    <Compile Include="CreateAgentViewModel.cs" />
+    <Compile Include="CreateUserViewModel.cs" />
+    <Compile Include="DashboardCountViewModel.cs" />
+    <Compile Include="DefaultTicketSettingsViewModel.cs" />
+    <Compile Include="DisplayTicketEmailViewModel.cs" />
+    <Compile Include="EditAssignedRolesViewModel.cs" />
+    <Compile Include="EditCategoriesVM.cs" />
+    <Compile Include="EscalationReportViewModel.cs" />
+    <Compile Include="ExportReportModel.cs" />
+    <Compile Include="GeneralSettingsViewModel.cs" />
+    <Compile Include="HolidayViewModel.cs" />
+    <Compile Include="KnowledgebaseModel.cs" />
+    <Compile Include="KnowledgebaseViewModel.cs" />
+    <Compile Include="LoginViewModel.cs" />
+    <Compile Include="MenuMasterOrderingVM.cs" />
+    <Compile Include="MenuMasterCacheViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DisplayTicketViewModel.cs" />
+    <Compile Include="RequestAttachments.cs" />
+    <Compile Include="RequestMenus.cs" />
+    <Compile Include="RequestTicketEmailViewModel.cs" />
+    <Compile Include="RequestTicketReplyDeleteViewModel.cs" />
+    <Compile Include="SavedAssignedRolesViewModel.cs" />
+    <Compile Include="SlaPoliciesShowViewModel.cs" />
+    <Compile Include="SlaPoliciesViewModel.cs" />
+    <Compile Include="SmtpEmailSettingsView.cs" />
+    <Compile Include="SmtpEmailSettingsViewModel.cs" />
+    <Compile Include="StaffDailyActivityModel.cs" />
+    <Compile Include="SubMenuMasterCreate.cs" />
+    <Compile Include="SubMenuMasterOrderingVm.cs" />
+    <Compile Include="SubMenuMasterViewModel.cs" />
+    <Compile Include="TicketHistoryRequest.cs" />
+    <Compile Include="TicketNotificationViewModel.cs" />
+    <Compile Include="TicketOverduesViewModel.cs" />
+    <Compile Include="TicketReplyViewModel.cs" />
+    <Compile Include="TicketsViewModel.cs" />
+    <Compile Include="UsermasterEditView.cs" />
+    <Compile Include="UsermasterView.cs" />
+    <Compile Include="UsermasterViewModel.cs" />
+    <Compile Include="UserResponseViewModel.cs" />
+    <Compile Include="UsersDetailsViewModel.cs" />
+    <Compile Include="ViewMenuRoleModel.cs" />
+    <Compile Include="ViewMenuRoleStatusUpdateModel.cs" />
+    <Compile Include="ViewRoleModel.cs" />
+    <Compile Include="ViewSignatureRequestViewModel.cs" />
+    <Compile Include="ViewSubMenuRoleModel.cs" />
+    <Compile Include="ViewSubMenuRoleStatusUpdateModel.cs" />
+    <Compile Include="ViewTicketModel.cs" />
+    <Compile Include="TicketReplyModel.cs" />
+    <Compile Include="ViewTicketReplyHistoryModel.cs" />
+    <Compile Include="ViewTicketReplyMainModel.cs" />
+    <Compile Include="ViewTicketReplyModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TicketManagement.Models\TicketManagement.Models.csproj">
+      <Project>{4EFD3EE1-5FFD-45CC-9136-56FAECF6B9EA}</Project>
+      <Name>TicketManagement.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

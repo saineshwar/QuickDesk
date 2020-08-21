@@ -1,0 +1,114 @@
+/* Some default button styles */
+button {font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle;}
+button {line-height: normal; *overflow: visible;}
+button {cursor: pointer; -webkit-appearance: button;}
+
+button {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  color: #333333;
+  display: inline-block;
+  font-size: 14px;
+  line-height: normal;
+  padding: 5px 10px;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+}
+
+.button:hover, button:hover {
+  text-decoration: none;
+  background-position: 0 -15px;
+}
+
+.button:focus, button:focus {
+  -webkit-box-shadow: 0 0px 2px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 0px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.4);
+  outline: none;
+}
+
+/* Timeout Dialog Styles */
+.timeout-dialog {
+  padding: 15px;
+  position: absolute;
+  background: #eeeeee url("../Images/timeout-icon.png") no-repeat 20px 75px;
+  border: 1px solid #ffffff;
+  -webkit-box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.timeout-dialog .ui-dialog-title {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  padding: 0 0 15px 0;
+  margin-left: 80px;
+}
+.timeout-dialog .ui-dialog-titlebar-close {
+  display: none;
+}
+.timeout-dialog .ui-dialog-buttonpane {
+  margin-top: 15px;
+}
+.timeout-dialog  ~ .ui-widget-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  filter: alpha(opacity=40);
+  -khtml-opacity: 0.4;
+  -moz-opacity: 0.4;
+  opacity: 0.4;
+}
+.timeout-dialog p {
+  margin: 0 0 5px 80px;
+}
+#timeout-keep-signin-btn {
+  color: #FFF;
+  background-color: #0f5895;
+  background-repeat: repeat-x;
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#377bb2), to(#0f5895));
+  background-image: -moz-linear-gradient(top, #377bb2, #0f5895);
+  background-image: -ms-linear-gradient(top, #377bb2, #0f5895);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #377bb2), color-stop(100%, #0f5895));
+  background-image: -webkit-linear-gradient(top, #377bb2, #0f5895);
+  background-image: -o-linear-gradient(top, #377bb2, #0f5895);
+  background-image: linear-gradient(top, #377bb2, #0f5895);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#377bb2', endColorstr='#0f5895', GradientType=0);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+  text-shadow: none;
+  margin: 5px 10px 5px 0;
+}
+#timeout-sign-out-button {
+  color: #FFF;
+  background-color: #e6e6e6;
+  background-repeat: repeat-x;
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(top, #ffffff, #e6e6e6);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  color: #000000;
+  text-shadow: none;
+  margin: 5px 0;
+}
+#timeout-countdown {
+  font-weight: bold;
+}

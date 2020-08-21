@@ -1,0 +1,109 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@model TicketManagement.ViewModels.TicketReplyViewModel
+
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Edit ticket Reply</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            @if (TempData["MessageTicket"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageTicket"]
+                </div>
+            }
+
+            @if (TempData["ErrorMessageTicket"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["ErrorMessageTicket"]
+                </div>
+            }
+
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @using (Html.BeginForm("EditReply", "TicketHOD", FormMethod.Post, new { id = "Ticketform", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.TicketId)
+                @Html.HiddenFor(model => model.TrackingId)
+                @Html.HiddenFor(model => model.TicketReplyId)
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Ticket :-")
+                    @Model.TrackingId
+                </div>
+
+
+                <div class="clearfix"></div>
+                <div class="col-lg-12">
+                    <br />
+                    @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @maxlength = 2000, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-12">
+                    <br />
+                    @Html.LabelFor(model => model.Note, htmlAttributes: new {@class = "mandatory"})
+                    @Html.TextAreaFor(model => model.Note, new {@class = "form-control", @maxlength = 2000, @onkeypress = "return onlyspecchar(event);"})
+                    @Html.ValidationMessageFor(model => model.Note, "", new {@class = "text-danger"})
+                </div>
+
+                if (!Model.HasAttachment)
+                {
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.Label("Attachments")
+                        <input type="file" id="fileupload_1" onchange="ValidateFile(this);" class="form-control" name="fileupload_1" />
+                        <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+                        <div class="text-danger" name="_val1" id="_val1">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.Label("Attachments")
+                        <input type="file" id="fileupload_2" onchange="ValidateFile(this);" class="form-control" name="fileupload_2" />
+                        <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+                        <div class="text-danger" name="_val2" id="_val2">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        @Html.Label("Attachments")
+                        <input type="file" id="fileupload_3" onchange="ValidateFile(this);" class="form-control" name="fileupload_3" />
+                        <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+                        <div class="text-danger" name="_val3" id="_val3">
+                        </div>
+                    </div>
+
+
+                }
+
+
+
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <br />
+                    <input type="submit" value="Update" onclick="return confirm('Are you sure you want to update this ticket?');" class="btn btn-primary" />
+                    @Html.ActionLink("Back", "Dashboard", "HODDashboard", null, new { @class = "btn btn-primary" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12"></div>
+                <div class="col-md-4 col-sm-4 col-xs-12"></div>
+
+            }
+        </div>
+    </div>
+</div>
+
+@section customscripts{
+    <script type="text/javascript">
+
+        CKEDITOR.replace('Message', { htmlEncodeOutput: true });
+    </script>
+
+}

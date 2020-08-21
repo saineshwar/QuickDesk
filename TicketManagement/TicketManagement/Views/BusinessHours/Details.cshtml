@@ -1,0 +1,50 @@
+﻿@model  List<TicketManagement.Models.BusinessHoursDetails>
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Business Hours Details</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+            @if (Model != null)
+            {
+                if (Model.Count > 0)
+                {
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>MorningTime</th>
+                                <th>EveningTime</th>
+                                <th>CreateDate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                    {
+                                <tr>
+                                    <td>@item.Day</td>
+                                    <td>@item.MorningTime</td>
+                                    <td>@item.EveningTime</td>
+                                    <td>@item.CreateDate</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                }
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <strong>Message!</strong> No Data Found.
+                </div>
+            }
+
+
+
+            <a class="btn btn-danger btn-xs" href="/BusinessHours/AllBusinessHours">Back</a>
+        </div>
+    </div>
+</div>

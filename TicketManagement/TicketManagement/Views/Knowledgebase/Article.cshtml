@@ -1,0 +1,110 @@
+﻿@model TicketManagement.ViewModels.KnowledgebaseArticleViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAdminKnowledgebase.cshtml";
+}
+<h3 class="page-header" style="color: #058"><i class="fa fa-book" style="font-size: 24px; color: #50C878"> </i> Article</h3>
+<div class="panel panel-default">
+    <div class="panel-heading">Solution</div>
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-lg-8">
+                @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label" })
+                <br />
+              
+                <mark>@Html.Raw(Model.Subject)</mark>
+            </div>
+        </div>
+        <hr />
+        <div class="row top-buffer">
+            <div class="col-lg-6">
+                @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label" })
+                <br />
+                @Html.Raw(Model.CategoryName)
+            </div>
+            <div class="col-lg-6">
+                @Html.LabelFor(model => model.KnowledgebaseTypeName, htmlAttributes: new { @class = "control-label" })
+                <br />
+                @Html.Raw(Model.KnowledgebaseTypeName)
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-lg-12">
+                @Html.LabelFor(model => model.Contents, htmlAttributes: new { @class = "control-label" })
+                <br/>
+             
+                @Html.Raw(Model.Contents)
+
+            </div>
+        </div>
+        <hr />
+        <div class="row top-buffer">
+            <div class="col-lg-8">
+                @Html.LabelFor(model => model.Keywords, htmlAttributes: new { @class = "control-label" })
+                @Html.Raw(Model.Keywords)
+
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                @Html.CheckBoxFor(model => model.Status)
+            </div>
+        </div>
+        <hr />
+        <div class="row top-buffer">
+            <div class="col-lg-4">
+                @Html.Label("Attachments Uploaded")
+                <br />
+                @foreach (var attachment in Model.ListofAttachments)
+                {
+                    <a class="glyphicon glyphicon-remove" style="color: #d9534f;" onclick="deleteAttachment('@attachment.KnowledgebaseAttachmentsId')" href="javascript:void(0);"></a>
+                    <a class="glyphicon glyphicon-download-alt" onclick="Download('@attachment.KnowledgebaseAttachmentsId')" href="javascript:void(0);"></a>
+                    @attachment.AttachmentsName
+                    <br />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function Download(attachmentsId) {
+        window.location = "/Knowledgebase/DownloadAttachMent/" + attachmentsId;
+    }
+
+    function deleteAttachment(attachmentsId) {
+        var result = confirm("Do you want to delete this attachment!");
+        if (result === true) {
+            if (attachmentsId != "") {
+                var jsonObject =
+                {
+                    KnowledgebaseAttachmentsId: attachmentsId
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "../Knowledgebase/DeleteAttachment",
+                    dataType: "json",
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data, textStatus, xhr) {
+                        if (data === true) {
+                            alert("Attachment Deleted Successfully");
+                            location.reload();
+                        } else {
+                            alert("Something Went Wrong While Deleting Ticket Please Try Again after Sometime!");
+                        }
+
+                    },
+                    error: function (xhr, status, err) {
+                        if (xhr.status == 400) {
+                            DisplayModelStateErrors(xhr.responseJSON.ModelState);
+                        }
+                    }
+                });
+            }
+        }
+    }
+</script>

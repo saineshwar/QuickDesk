@@ -1,0 +1,147 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@model TicketManagement.ViewModels.TicketsViewModel
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>New ticket</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+
+
+
+
+            @if (TempData["MessageTicket"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["MessageTicket"]
+                </div>
+            }
+
+            @if (TempData["ErrorMessageTicket"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Message!</strong> @TempData["ErrorMessageTicket"]
+                </div>
+            }
+
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @using (Html.BeginForm("Create", "TicketAgent", FormMethod.Post, new { id = "Ticketform", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m=>m.HiddenUserId)
+                    </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "mandatory" })
+                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.ListofCategory, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.PriorityId, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.PriorityId, new SelectList(Model.ListofPriority, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PriorityId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-8 col-sm-8 col-xs-12">
+                    @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextBoxFor(model => model.Subject, new { @class = "form-control", @maxlength = 70, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                </div>
+                <div class="col-lg-12">
+                    @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "mandatory" })
+                    @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @maxlength = 2000, @onkeypress = "return onlyspecchar(event);" })
+                    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Attachments")
+                    <input type="file" id="fileupload_1" onchange="ValidateFile(this);" class="form-control" name="fileupload_1" />
+                    <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+                    <div class="text-danger" name="_val1" id="_val1">
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Attachments")
+                    <input type="file" id="fileupload_2" onchange="ValidateFile(this);" class="form-control" name="fileupload_2" />
+                    <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+                    <div class="text-danger" name="_val2" id="_val2">
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    @Html.Label("Attachments")
+                    <input type="file" id="fileupload_3" onchange="ValidateFile(this);" class="form-control" name="fileupload_3" />
+                    <small>.jpg, .gif, .jpeg, .png, .txt, .pdf</small>
+                    <div class="text-danger" name="_val3" id="_val3">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <br />
+                    <button type="submit" onclick="return confirm('Do you really want to submit the ticket?');" class="btn btn-success"> <i class="fa fa-check-circle"></i> Create </button>
+                    @Html.ActionLink("Clear", "Create", "TicketAgent", null, new { @class = "btn btn-primary" })
+                    
+                </div>
+            }
+        </div>
+
+
+    </div>
+</div>
+@section customscripts{
+
+    <script type="text/javascript">
+
+        CKEDITOR.replace('Message', { htmlEncodeOutput: true });
+
+        $(document).ready(function() {
+            $("#Name").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "/TicketAgent/GetAllUsers",
+                        type: "GET",
+                        dataType: "json",
+                        data: { usernames: request.term },
+                        success: function(data) {
+                            response($.map(data,
+                                function(item) {
+                                    return { label: item.Username, value: item.UserId };
+                                }));
+                        }
+                    });
+                },
+                error: function(response) {
+                    alert(response.responseText);
+                },
+                failure: function(response) {
+                    alert(response.responseText);
+                },
+                select: function(e, i) {
+                    $("#Name").val(i.item.label);
+                    $("#HiddenUserId").val(i.item.value);
+                    return false;
+                },
+                change: function(event, ui) {
+                    if (ui.item == null || ui.item == undefined) {
+                        $("#Name").val("");
+                    }
+                },
+                minLength: 2
+            });
+        });
+    </script>
+
+    <link href="~/Content/Autocomplete.css" rel="stylesheet"/>
+
+}

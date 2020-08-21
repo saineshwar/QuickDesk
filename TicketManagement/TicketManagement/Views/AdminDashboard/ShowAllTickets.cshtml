@@ -1,0 +1,96 @@
+﻿@section customscripts{
+
+    <link href="~/Content/Autocomplete.css" rel="stylesheet"/>
+    <link href="~/Scripts/jtable/themes/metro/lightgray/jtable.min.css" rel="stylesheet"/>
+    <!--Adding jTable Plugin-->
+    <script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+
+    <link href="~/Scripts/validationEngine/validationEngine.jquery.css" rel="stylesheet" type="text/css"/>
+
+    <script src="~/Scripts/customgrids/allgrid-admin.in.js"></script>
+
+    <script type="text/javascript">
+        $(document).on('paste',
+            '#search',
+            function(e) {
+                window.setTimeout(function() {
+                        var withoutSpaces = $("#search").val();
+                        withoutSpaces = withoutSpaces.replace(/\s+/g, '');
+                        $("#search").val(withoutSpaces);
+                    },
+                    1);
+            });
+    </script>
+
+}
+
+
+<div class="col-md-12 col-xs-12">
+    <div class="col-md-9 col-xs-9">
+        <div class="x_panel">
+            <div class="x_content">
+                <br />
+                <div id="GridTableContainer"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3 col-xs-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"
+                    data-toggle="collapse"
+                    data-target="#collapseinfo">
+                    <i class="fa fa-info-circle"></i> Search Panel
+                </h4>
+            </div>
+
+            <div class="panel-collapse">
+                <div class="panel-body">
+                    <form id="form">
+
+                        <label>Search</label>
+                        <input id="search" name="search" class="form-control" type="text" />
+
+                        <label>SearchIn</label>
+                        <select id="searchin" required name="searchin" class="form-control"> </select>
+
+                        <label>Priority</label>
+                        <select class="form-control" name="DropPriority" id="DropPriority"></select>
+
+                        <label>Status</label>
+                        <select class="form-control" name="DropStatus" id="DropStatus"></select>
+                        <br />
+                        <button type="submit" class="btn btn-round btn-success" id="BtnSearch">Search</button>
+                        <button type="button" class="btn btn-round btn-primary" id="BtnClear">Clear</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"
+                    data-toggle="collapse"
+                    data-target="#collapseinfo">
+                    <i class="fa fa-info-circle"></i> Search Panel
+                </h4>
+            </div>
+
+            <div class="panel-collapse">
+                <div class="panel-body">
+                    <form id="form1">
+                        <label>Assign</label>
+                        <input class="form-control" type="text" id="Username" name="Username" />
+                        <input type="hidden" id="hdUserReferenceId" name="hdUserReferenceId" />
+                        <br />
+                        <button type="submit" class="btn btn-round btn-primary" id="BtnAssign">Assign</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

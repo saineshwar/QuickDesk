@@ -1,0 +1,107 @@
+﻿
+
+<link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/metro/lightgray/jtable.min.css" rel="stylesheet" />
+<!--Adding jquery Plugin-->
+<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+<!--Adding jTable Plugin-->
+<script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+<!-- Import CSS file for validation engine (in Head section of HTML) -->
+<link href="~/Scripts/validationEngine/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+
+
+<script>
+    $(document).ready(function () {
+        $('#RolesTableContainer').jtable({
+            title: 'Roles',
+            paging: true,
+            pageSize: 10,
+            sorting: true,
+            pageSizeChangeArea: false,
+            actions:
+            {
+                listAction: '/AllAssignedRoleMenu/GetRoles',
+                deleteAction: '/AllAssignedRoleMenu/DeleteRole',
+                updateAction: '/AllAssignedRoleMenu/UpdateRole'
+            },
+            fields: {
+                SaveId: {
+                    key: true,
+                    list: false
+                },
+                RoleName: {
+                    title: 'RoleName',
+                    width: '20%'
+                },
+                MenuName: {
+                    title: 'MenuName',
+                    width: '25%'
+                },
+                Status: {
+                    title: 'Status',
+                    width: '12%',
+                    type: 'checkbox',
+                    values: { 'false': 'Deactivate', 'true': 'Active' },
+                    defaultValue: 'true'
+                }
+            },
+            formCreated: function (event, data) {
+                $('#Edit-RoleName').prop('disabled', true);
+                $('#Edit-MenuName').prop('disabled', true);
+                data.form.find('select').prop('disabled', true);
+            }
+        });
+
+        //Re-load records when user click 'load records' button.
+        $('#BtnSearch').click(function (e) {
+            e.preventDefault();
+            $('#RolesTableContainer').jtable('load', {
+                roleId: $('#RoleID').val()
+            });
+        });
+
+        //Load Customer data from server
+        $('#RolesTableContainer').jtable('load');
+    });
+
+</script>
+<script src="~/Scripts/ValidationScript/ViewRoles.js"></script>
+
+
+
+
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>All Assigned Role to Menu</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            <form id="form">
+                <div class="col-lg-4">
+                    <label>Role</label>
+                    <select id="RoleID" required name="RoleID" class="form-control"> </select>
+                </div>
+                <div class="col-lg-4" style="margin-top: 25px">
+                    <button id="BtnSearch" class="btn btn-round btn-success" type="submit"><i class="glyphicon glyphicon-search"></i> Search</button>
+                    <a href="/AllAssignedRoleMenu/RolesView" class="btn btn-round btn-primary"><i class="glyphicon glyphicon-repeat"></i> Clear</a>
+                </div>
+            </form>
+
+            <hr />
+            <div class="row">
+                <div class="col-lg-12"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="RolesTableContainer"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
