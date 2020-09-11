@@ -4,6 +4,9 @@ The help desk software for small companies which are into customer support.
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/logo.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 Project is Developed in ASP.NET MVC with SQL Server Database
 
+### License 
+An alternative Commercial License can be purchased for projects and applications requiring support. Please visit https://tutexchange.com/projects/pricing for details.
+
 ### Live Application URL
 https://quickdesksupport.azurewebsites.net/
 
@@ -11,8 +14,7 @@ https://quickdesksupport.azurewebsites.net/
 ***
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/credentails.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 
-### License 
-An alternative Commercial License can be purchased for projects and applications requiring support. Please visit https://tutexchange.com/projects/pricing for details.
+
 
 ### Features
 ***
