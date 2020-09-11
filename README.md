@@ -11,6 +11,9 @@ https://quickdesksupport.azurewebsites.net/
 ***
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/credentails.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 
+### License 
+An alternative Commercial License can be purchased for projects and applications requiring support. Please visit https://tutexchange.com/projects/pricing for details.
+
 ### Features
 ***
 
