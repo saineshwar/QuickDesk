@@ -5,10 +5,7 @@ The help desk software for small companies which are into customer support.
 Project is Developed in ASP.NET MVC with SQL Server Database
 
 ### License 
-An alternative Commercial License can be purchased for projects and applications requiring support. Please visit https://tutexchange.com/projects/pricing for details.
-
-### Live Application URL
-https://quickdesksupport.azurewebsites.net/
+An alternative Commercial License can be purchased for projects and applications requiring support. Please visit https://tutexchange.com/free-open-source-projects/free-help-desk-software/ for details.
 
 ### Credentails
 ***
