@@ -12,7 +12,7 @@ An alternative Commercial License can be purchased for projects and applications
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/credentails.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 
 ## Video 
-[![IMAGE ALT TEXT](https://github.com/saineshwar/QuickDesk/blob/master/videobanner.png)](https://youtu.be/rx9Lzv-4t-Y "Click to View Video")
+[![IMAGE ALT TEXT](https://github.com/saineshwar/QuickDesk/blob/master/newbanner.png)](https://youtu.be/rx9Lzv-4t-Y "Click to View Video")
 
 ### Features
 ***
