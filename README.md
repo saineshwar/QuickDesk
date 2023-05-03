@@ -1,6 +1,9 @@
 # QuickDesk
 The help desk software for small companies which are into customer support. 
 
+# VueTicket is New Version of QuickDesk
+### https://github.com/saineshwar/VueTicket
+
 <img src="https://github.com/saineshwar/QuickDesk/blob/master/snap/logo.png?raw=true" alt="Banner" title="Banner" style="max-width:100%;">
 Project is Developed in ASP.NET MVC with SQL Server Database
 
